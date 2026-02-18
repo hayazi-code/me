@@ -1,9 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>NYC Zoning & Planning Jeopardy</title>
+  <title>ژئوپاردی مشروطه — بازی چندنفره</title>
+  <meta name="description" content="بازی ژئوپاردی چندنفره دربارهٔ انقلاب مشروطه ایران (۱۲۸۵–۱۲۹۰ ش)."/>
+
   <style>
     :root{
       --bg:#070a12;
@@ -20,7 +22,7 @@
       --shadow: 0 18px 50px rgba(0,0,0,.55);
       --radius:18px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
 
     *{box-sizing:border-box}
@@ -34,19 +36,19 @@
         var(--bg);
       color:var(--text);
       font-family:var(--sans);
-      line-height:1.35;
+      line-height:1.45;
     }
 
     .wrap{
-      max-width:1200px;
+      max-width:1220px;
       margin:0 auto;
       padding:18px 14px 24px;
       display:grid;
-      grid-template-columns: 1fr 330px;
+      grid-template-columns: 1fr 360px;
       gap:14px;
       align-items:start;
     }
-    @media (max-width: 980px){
+    @media (max-width: 1040px){
       .wrap{grid-template-columns: 1fr}
     }
 
@@ -75,29 +77,28 @@
       color:var(--muted);
       font-size:12px;
     }
+
     .controls{
       display:flex; flex-wrap:wrap; gap:8px; align-items:center;
     }
-    button, .btn{
+    button, .btn, .select, .input{
       appearance:none;
       border:1px solid rgba(255,255,255,.18);
       background: rgba(255,255,255,.06);
       color:var(--text);
       padding:9px 12px;
       border-radius: 12px;
-      cursor:pointer;
-      font-weight:700;
+      font-weight:800;
       font-size:12px;
       letter-spacing:.2px;
       transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
-      user-select:none;
     }
+    button, .btn{ cursor:pointer; user-select:none; }
     button:hover, .btn:hover{
       transform: translateY(-1px);
       background: rgba(255,255,255,.10);
       border-color: rgba(255,255,255,.28);
     }
-    button:active{transform: translateY(0px)}
     .btn.primary{
       background: linear-gradient(135deg, rgba(29,60,255,.35), rgba(255,215,106,.18));
       border-color: rgba(29,60,255,.40);
@@ -106,6 +107,13 @@
       border-color: rgba(255,90,120,.35);
       background: rgba(255,90,120,.10);
     }
+    .select, .input{
+      cursor: default;
+      font-weight:700;
+      padding:9px 10px;
+    }
+    .input{ width: 140px; }
+    .hint{color:var(--muted); font-size:11px; font-weight:600}
 
     /* Board */
     .board{
@@ -125,26 +133,24 @@
       font-weight:900;
       font-size:12px;
       letter-spacing:.6px;
-      text-transform:uppercase;
       background: linear-gradient(180deg, rgba(29,60,255,.35), rgba(29,60,255,.10));
-      border-right:1px solid rgba(255,255,255,.12);
+      border-left:1px solid rgba(255,255,255,.12);
       border-bottom:1px solid rgba(255,255,255,.12);
-      min-height:64px;
+      min-height:66px;
       display:grid;
       place-items:center;
     }
-    .cat:last-child{border-right:none}
-
+    .cat:first-child{border-right:none}
     .cell{
       position:relative;
-      border-right:1px solid rgba(255,255,255,.10);
+      border-left:1px solid rgba(255,255,255,.10);
       border-bottom:1px solid rgba(255,255,255,.10);
       background: linear-gradient(180deg, rgba(13,42,165,.30), rgba(13,42,165,.06));
       min-height:86px;
       display:grid;
       place-items:center;
     }
-    .cell:nth-child(6n){border-right:none}
+    .cell:nth-child(6n){border-left:none}
     .cell button{
       width:100%;
       height:100%;
@@ -164,7 +170,7 @@
     }
     .dd-badge{
       position:absolute;
-      top:8px; left:8px;
+      top:8px; right:8px;
       font-family: var(--mono);
       font-size:10px;
       padding:5px 7px;
@@ -193,52 +199,63 @@
       gap:10px;
       align-items:flex-start;
     }
+    .pill{
+      font-family: var(--mono);
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.78);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
     .scorebox{
       padding:14px;
       display:grid;
       gap:10px;
     }
-    .score{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
+    .scoreRow{
       padding:12px 12px;
       border-radius: 14px;
       background: rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.10);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
     }
-    .score .label{
-      font-size:12px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.10em;
+    .playerTag{
+      display:flex; flex-direction:column; gap:3px;
     }
-    .score .value{
+    .playerTag b{font-size:13px}
+    .playerTag span{color:var(--muted); font-size:11px; font-family:var(--mono)}
+    .scoreVal{
       font-family: var(--mono);
       font-weight:900;
-      font-size:18px;
+      font-size:16px;
+      min-width: 90px;
+      text-align:left;
     }
-    .score-controls{
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    .score-controls button{
-      flex: 1 1 70px;
+    .scoreRow.active{
+      outline: 2px solid rgba(82,255,168,.35);
+      background: rgba(82,255,168,.08);
     }
 
     /* Pixel announcer */
     .announcer{
       padding:14px;
       display:grid;
-      grid-template-columns: 86px 1fr;
+      grid-template-columns: 92px 1fr;
       gap:12px;
       align-items:start;
       border-top:1px solid rgba(255,255,255,.10);
       background: rgba(10,15,38,.35);
     }
     .pixel{
-      width:86px;
-      height:86px;
+      width:92px;
+      height:92px;
       border-radius: 16px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.20);
@@ -247,27 +264,26 @@
       place-items:center;
       overflow:hidden;
     }
-    /* CSS “pixel art” using box-shadow squares */
     .sprite{
       width:8px; height:8px;
       background: transparent;
       transform: scale(4);
       image-rendering: pixelated;
+      /* پیکسل‌آرت سبک بازی‌های آموزشی دهه ۹۰ */
       box-shadow:
         /* hair */
         1px 0px 0 #2a1b12, 2px 0px 0 #2a1b12, 3px 0px 0 #2a1b12, 4px 0px 0 #2a1b12, 5px 0px 0 #2a1b12,
         0px 1px 0 #2a1b12, 1px 1px 0 #2a1b12, 2px 1px 0 #2a1b12, 3px 1px 0 #2a1b12, 4px 1px 0 #2a1b12, 5px 1px 0 #2a1b12, 6px 1px 0 #2a1b12,
         0px 2px 0 #2a1b12, 1px 2px 0 #ffcfad, 2px 2px 0 #ffcfad, 3px 2px 0 #ffcfad, 4px 2px 0 #ffcfad, 5px 2px 0 #ffcfad, 6px 2px 0 #2a1b12,
-        /* face / glasses */
-        0px 3px 0 #2a1b12, 1px 3px 0 #ffcfad, 2px 3px 0 #1a2a66, 3px 3px 0 #ffcfad, 4px 3px 0 #1a2a66, 5px 3px 0 #ffcfad, 6px 3px 0 #2a1b12,
+        /* glasses */
+        0px 3px 0 #2a1b12, 1px 3px 0 #ffcfad, 2px 3px 0 #19307a, 3px 3px 0 #ffcfad, 4px 3px 0 #19307a, 5px 3px 0 #ffcfad, 6px 3px 0 #2a1b12,
         0px 4px 0 #2a1b12, 1px 4px 0 #ffcfad, 2px 4px 0 #ffcfad, 3px 4px 0 #ffcfad, 4px 4px 0 #ffcfad, 5px 4px 0 #ffcfad, 6px 4px 0 #2a1b12,
-        /* smile */
+        /* mouth */
         2px 5px 0 #ffcfad, 3px 5px 0 #c25a59, 4px 5px 0 #ffcfad,
         /* suit */
         1px 6px 0 #0d2aa5, 2px 6px 0 #0d2aa5, 3px 6px 0 #0d2aa5, 4px 6px 0 #0d2aa5, 5px 6px 0 #0d2aa5,
         1px 7px 0 #0d2aa5, 2px 7px 0 #ffd76a, 3px 7px 0 #0d2aa5, 4px 7px 0 #ffd76a, 5px 7px 0 #0d2aa5;
     }
-
     .speech{
       display:grid;
       gap:8px;
@@ -279,7 +295,7 @@
       background: rgba(255,255,255,.04);
       color: rgba(255,255,255,.86);
       font-size: 13px;
-      min-height: 44px;
+      min-height: 52px;
     }
     .bubble .small{color:var(--muted); font-size:12px}
     .toggles{
@@ -308,7 +324,7 @@
     }
     .modal.open{display:grid}
     .dialog{
-      width:min(880px, 100%);
+      width:min(920px, 100%);
       border-radius: 22px;
       border:1px solid rgba(255,255,255,.16);
       background: linear-gradient(180deg, rgba(11,18,48,.95), rgba(10,15,38,.95));
@@ -324,7 +340,7 @@
       border-bottom:1px solid rgba(255,255,255,.12);
     }
     .dialog-head .meta{
-      display:flex; flex-direction:column; gap:2px;
+      display:flex; flex-direction:column; gap:3px;
     }
     .dialog-head .meta b{font-size:13px; letter-spacing:.3px}
     .dialog-head .meta span{font-family:var(--mono); font-size:12px; color:var(--muted)}
@@ -339,17 +355,18 @@
       letter-spacing:.2px;
       text-align:center;
       margin: 6px auto 2px;
-      max-width: 45ch;
+      max-width: 52ch;
       color: var(--gold);
       text-shadow: 0 3px 0 rgba(0,0,0,.55);
     }
     .answer{
       display:none;
       margin: 0 auto;
-      max-width: 62ch;
+      max-width: 70ch;
       text-align:center;
       color: rgba(255,255,255,.88);
       font-size: 14px;
+      line-height:1.6;
     }
     .answer.show{display:block}
     .dialog-actions{
@@ -361,94 +378,80 @@
       border-top:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
     }
-    .left-actions, .right-actions{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+    .left-actions, .right-actions{
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center
+    }
     .money{
       font-family: var(--mono);
       font-weight:900;
     }
-
-    /* Final Jeopardy */
-    .final-row{
-      padding:14px 14px 14px;
-      border-top:1px solid rgba(255,255,255,.10);
-      display:grid;
+    .buzzRow{
+      margin-top: 4px;
+      display:flex;
+      justify-content:center;
       gap:10px;
-    }
-    .final-row .hint{
+      flex-wrap:wrap;
+      color: var(--muted);
       font-size:12px;
-      color:var(--muted);
     }
-    .input{
-      width:100%;
-      padding:10px 12px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
+    .buzzKey{
       font-family: var(--mono);
-      outline:none;
-    }
-    .input:focus{border-color: rgba(29,60,255,.55)}
-    .pill{
-      font-family: var(--mono);
-      font-size:11px;
-      padding:6px 10px;
-      border-radius:999px;
+      padding:5px 8px;
+      border-radius:10px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.78);
+      color: rgba(255,255,255,.80);
+    }
+    .whoBuzzed{
+      text-align:center;
+      font-weight:900;
+      color: rgba(82,255,168,.92);
+      margin-top:2px;
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="wrap">
     <header>
       <div class="title">
-        <h1>NYC Zoning & Planning Jeopardy</h1>
-        <div class="sub">Single-player board • Score yourself • Built for fast edits & expansion</div>
+        <h1>ژئوپاردی «انقلاب مشروطه» — چندنفره</h1>
+        <div class="sub">۲ تا ۴ نفر • Buzz با کلیدها • امتیازدهی خودکار • رابط کاملاً فارسی</div>
       </div>
+
       <div class="controls">
-        <button class="btn primary" id="btnNew">New Game</button>
-        <button class="btn" id="btnRevealAll" title="For testing only">Reveal All</button>
-        <button class="btn danger" id="btnResetScore">Reset Score</button>
+        <select class="select" id="playerCount">
+          <option value="2">۲ بازیکن</option>
+          <option value="3">۳ بازیکن</option>
+          <option value="4">۴ بازیکن</option>
+        </select>
+
+        <input class="input" id="p1" value="بازیکن ۱" aria-label="نام بازیکن ۱"/>
+        <input class="input" id="p2" value="بازیکن ۲" aria-label="نام بازیکن ۲"/>
+        <input class="input" id="p3" value="بازیکن ۳" aria-label="نام بازیکن ۳"/>
+        <input class="input" id="p4" value="بازیکن ۴" aria-label="نام بازیکن ۴"/>
+
+        <button class="btn primary" id="btnStart">شروع بازی</button>
+        <button class="btn" id="btnNew">بازی جدید</button>
+        <button class="btn danger" id="btnResetScore">صفر کردن امتیازها</button>
       </div>
     </header>
 
-    <section class="board" aria-label="Jeopardy board">
+    <section class="board" aria-label="صفحه ژئوپاردی">
       <div class="grid" id="catRow"></div>
       <div class="grid" id="cells"></div>
     </section>
 
-    <aside aria-label="Score and announcer">
+    <aside aria-label="امتیاز و مجری">
       <div class="panel-head">
         <div>
-          <div style="font-weight:900; font-size:13px; letter-spacing:.3px;">Score</div>
-          <div style="color:var(--muted); font-size:12px;">Use + / − after each clue.</div>
+          <div style="font-weight:900; font-size:13px;">امتیازها</div>
+          <div class="hint">کلیدهای Buzz: بازیکن۱=۱، بازیکن۲=۲، بازیکن۳=۳، بازیکن۴=۴</div>
         </div>
-        <span class="pill" id="progressPill">0 / 30</span>
+        <span class="pill" id="progressPill">۰ / ۳۰</span>
       </div>
 
-      <div class="scorebox">
-        <div class="score">
-          <div>
-            <div class="label">Player</div>
-            <div class="value" id="scoreVal">$0</div>
-          </div>
-          <div class="score-controls" style="min-width:160px;">
-            <button id="minusBtn">−</button>
-            <button id="plusBtn">+</button>
-          </div>
-        </div>
-
-        <div class="final-row">
-          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:space-between;">
-            <b style="font-size:13px;">Final Jeopardy</b>
-            <button class="btn" id="btnFinal">Play Final</button>
-          </div>
-          <div class="hint">Optional: after the board, wager and answer one final clue.</div>
-        </div>
-      </div>
+      <div class="scorebox" id="scorebox"></div>
 
       <div class="announcer">
         <div class="pixel" aria-hidden="true">
@@ -456,12 +459,12 @@
         </div>
         <div class="speech">
           <div class="bubble" id="announcerBubble">
-            <div><b>Welcome, planners.</b></div>
-            <div class="small">Pick a category. Don’t buzz in, just be honest.</div>
+            <div><b>خوش آمدید!</b></div>
+            <div class="small">یک خانه را انتخاب کنید. بعد با ۱–۴ Buzz کنید.</div>
           </div>
           <div class="toggles">
-            <label><input id="toggleVoice" type="checkbox"/> Voice announcer (Web Speech)</label>
-            <label><input id="toggleSfx" type="checkbox"/> SFX (simple beeps)</label>
+            <label><input id="toggleVoice" type="checkbox"/> گوینده (Web Speech)</label>
+            <label><input id="toggleSfx" type="checkbox"/> افکت ساده</label>
           </div>
         </div>
       </div>
@@ -469,35 +472,46 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Clue dialog">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="پنجره سوال">
     <div class="dialog">
       <div class="dialog-head">
         <div class="meta">
-          <b id="modalTitle">Category</b>
-          <span id="modalMeta">$200 • Clue 1 of 5</span>
+          <b id="modalTitle">دسته</b>
+          <span id="modalMeta">۲۰۰ • ردیف ۱ از ۵</span>
         </div>
-        <button class="btn" id="btnClose">Close</button>
+        <button class="btn" id="btnClose">بستن</button>
       </div>
 
       <div class="dialog-body">
-        <div class="clue" id="clueText">Clue text</div>
+        <div class="clue" id="clueText">متن سوال</div>
+
+        <div class="buzzRow">
+          <span>Buzz کنید:</span>
+          <span class="buzzKey">۱</span>
+          <span class="buzzKey">۲</span>
+          <span class="buzzKey">۳</span>
+          <span class="buzzKey">۴</span>
+        </div>
+        <div class="whoBuzzed" id="whoBuzzed">هنوز کسی Buzz نکرده…</div>
+
         <div class="answer" id="answerText"></div>
+
         <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
-          <span class="pill" id="tagPill">tag</span>
-          <span class="pill" id="ddPill" style="display:none;">Daily Double</span>
+          <span class="pill" id="tagPill">برچسب</span>
+          <span class="pill" id="ddPill" style="display:none;">دیلی دابل</span>
         </div>
       </div>
 
       <div class="dialog-actions">
         <div class="left-actions">
-          <button class="btn" id="btnShowAnswer">Show Answer</button>
-          <button class="btn" id="btnAnnounce">Announce</button>
+          <button class="btn" id="btnShowAnswer">نمایش پاسخ</button>
+          <button class="btn" id="btnAnnounce">خواندن سوال</button>
         </div>
         <div class="right-actions">
-          <span class="money" id="moneyTag">$200</span>
-          <button class="btn" id="btnCorrect">Correct (+)</button>
-          <button class="btn danger" id="btnWrong">Wrong (−)</button>
-          <button class="btn primary" id="btnLock">Lock Clue</button>
+          <span class="money" id="moneyTag">۲۰۰</span>
+          <button class="btn" id="btnCorrect">درست ✅</button>
+          <button class="btn danger" id="btnWrong">غلط ❌</button>
+          <button class="btn primary" id="btnLock">قفل و برگشت</button>
         </div>
       </div>
     </div>
@@ -505,92 +519,98 @@
 
 <script>
 /**
- * Jeopardy-style quiz game: NYC Zoning Resolution + NYC planning history.
- * Single-file, no build step. Edit QUESTIONS below to expand the bank.
+ * ژئوپاردی مشروطه — لوکال مولتی‌پلیر (۲ تا ۴ نفر)
+ * قواعد:
+ * - یک نفر یک خانه را انتخاب می‌کند.
+ * - همه می‌توانند Buzz کنند (کلید ۱ تا ۴). اولین Buzz ثبت می‌شود.
+ * - بعد از «نمایش پاسخ»، داور (شما) درست/غلط را می‌زند و امتیاز به همان Buzzکننده اعمال می‌شود.
+ * - برنده‌ی سوال (کسی که درست زد) انتخاب‌کننده‌ی بعدی می‌شود. (اگر غلط بود، انتخاب‌کننده ثابت می‌ماند.)
  *
- * IMPORTANT: For real gameplay, refine clue wording and answers (and add citations if you want).
+ * نکته: پرسش‌ها بر پایهٔ واقعیت‌های رایج و تاریخ‌های شناخته‌شدهٔ انقلاب مشروطه طراحی شده‌اند.
  */
 
-// Money values for 5 rows
 const VALUES = [200, 400, 600, 800, 1000];
 
+// بانک سوال‌ها (۶ دسته × ۵ سوال = ۳۰ خانه)
 const QUESTIONS = [
   {
-    category: "Zoning Basics",
+    category: "قانون اساسی ۱۲۸۵",
     clues: [
-      { clue: "This zoning envelope control sets the maximum floor area relative to lot area.", answer: "What is FAR (Floor Area Ratio)?", tag:"fundamentals" },
-      { clue: "The required open space and building arrangement rules often differ between this pair: buildings in a row vs. buildings isolated on a lot.", answer: "What are R1–R5 (context) vs. tower-in-the-park-style districts? (More broadly: contextual vs. non-contextual bulk rules.)", tag:"bulk" },
-      { clue: "In the Zoning Resolution, manufacturing districts begin with this letter.", answer: "What is M?", tag:"notation" },
-      { clue: "A building feature that projects into the street’s airspace may be limited by rules tied to this boundary line.", answer: "What is the street line?", tag:"streetwall" },
-      { clue: "This zoning tool lets certain lots access floor area from other lots under rules and agreements.", answer: "What are transfer of development rights (TDR) / floor area transfers?", tag:"mechanisms" },
+      { clue: "این شاهِ قاجار در واپسین روزهای عمرش «قانون اساسی/قانون بنیادی» را پذیرفت و امضا کرد (۱۹۰۶).", answer: "پاسخ: مظفرالدین‌شاه قاجار.", tag:"قانون" },
+      { clue: "مجلسِ ملیِ تازه‌تأسیس در پاییز ۱۹۰۶ کارش را شروع کرد؛ نام رسمی‌اش در متون آن دوره چیست؟", answer: "پاسخ: مجلس شورای ملی (Majles-e Shورا-ye ملی).", tag:"نهاد" },
+      { clue: "متمم قانون اساسی که اصولی مثل تفکیک قوا و حقوق ملت را صریح‌تر کرد، در این سال تصویب/امضا شد.", answer: "پاسخ: ۱۹۰۷ (۱۲۸۶ شمسی).", tag:"متمم" },
+      { clue: "این مفهومِ تازه‌محوریافته در متمم ۱۹۰۷ آمده: «قوا از … سرچشمه می‌گیرد». جای خالی را پر کنید.", answer: "پاسخ: از مردم. (یعنی منشأ قدرت، مردم‌اند.)", tag:"اندیشه سیاسی" },
+      { clue: "پرسش تند: فرق «قانون اساسی ۱۹۰۶» و «متمم ۱۹۰۷» چیست؟ (در یک جمله دقیق بگو.)", answer: "پاسخ پیشنهادی: ۱۹۰۶ چارچوب کلیِ مجلس/ساختار را گذاشت؛ ۱۹۰۷ جزئیات حقوق، تفکیک قوا و اصول تکمیلی را افزود.", tag:"دقت مفهومی" },
     ]
   },
   {
-    category: "District Alphabet Soup",
+    category: "بست‌نشینی و جنبش",
     clues: [
-      { clue: "In R7A, the typical contextual height is controlled with a base height and a maximum building height; this is part of a system called…", answer: "What are height limits under Quality Housing / contextual zoning?", tag:"contextual" },
-      { clue: "A C4 district generally allows broader commercial uses than this neighborhood-scale commercial district type.", answer: "What is C1 (or C2) neighborhood commercial?", tag:"commercial" },
-      { clue: "These mapped commercial overlays are commonly seen along corridors like Nostrand Ave or Flatbush Ave.", answer: "What are C1/C2 overlays?", tag:"overlays" },
-      { clue: "The letter used in zoning district names to indicate a contextual district (often with streetwall rules) is commonly this one.", answer: "What is “A” (as in R6A, R7A, R8A)?", tag:"naming" },
-      { clue: "In high-density contexts, residential districts often pair with commercial districts like C4-__; one common high-density commercial district is…", answer: "What is C4-7? (Also acceptable: other mapped high-density C4 variants depending on context.)", tag:"density" },
+      { clue: "در تابستان ۱۹۰۶ هزاران نفر برای فشار سیاسی و امنیت، در محوطهٔ این نهاد خارجی «بست» نشستند.", answer: "پاسخ: سفارت بریتانیا (محوطه سفارت/گُل‌هَک).", tag:"بست" },
+      { clue: "اصطلاح «بست» در فرهنگ سیاسی ایران به چه معناست؟", answer: "پاسخ: پناهندگی/حرمتِ مکان امن (sanctuary/asylum) برای در امان ماندن از تعقیب.", tag:"واژه" },
+      { clue: "یکی از مطالبات مرکزی جنبش ۱۹۰۶ که از دل بست‌نشینی تقویت شد این بود: تشکیل …", answer: "پاسخ: مجلس (پارلمان/مجلس شورای ملی).", tag:"مطالبه" },
+      { clue: "چالش مفهومی: چرا بست‌نشینی در سفارت، هم «ابزار فشار» بود و هم می‌توانست «مسئله‌ساز» شود؟", answer: "پاسخ پیشنهادی: فشار داخلی می‌ساخت، اما هزینهٔ مشروعیت/وابستگی و امکان مداخله خارجی را هم بالا می‌برد.", tag:"تحلیل" },
+      { clue: "کلمهٔ «مشروطه» دقیقاً به چه چیزی «مشروط» می‌کرد؟", answer: "پاسخ: قدرت شاه/حکومت را به قانون و نظارت نهاد نمایندگی (مجلس) مشروط می‌کرد.", tag:"مفهوم" },
     ]
   },
   {
-    category: "Bulk & Form",
+    category: "محمدعلی‌شاه و استبداد صغیر",
     clues: [
-      { clue: "This requirement describes the minimum distance between a building and the lot line, often on the sides and rear.", answer: "What is a setback (yard requirement)?", tag:"form" },
-      { clue: "Contextual zoning commonly uses this percentage of lot frontage to require a continuous streetwall.", answer: "What is a streetwall continuity requirement (often expressed as a % of frontage)?", tag:"streetwall" },
-      { clue: "A common reason a proposal triggers special review is because it exceeds the floor area threshold under this environmental process.", answer: "What is CEQR (City Environmental Quality Review)?", tag:"process" },
-      { clue: "This rule can limit the size/placement of curb cuts to reduce conflicts with pedestrians and curb activity.", answer: "What are curb cut restrictions / rules on driveways and parking access?", tag:"streets" },
-      { clue: "The concept that regulates how much of a lot can be covered by a building footprint is called…", answer: "What is lot coverage?", tag:"bulk" },
+      { clue: "واقعهٔ «به توپ بستن مجلس» در تهران در این تاریخ رخ داد (روز/ماه/سال میلادی).", answer: "پاسخ: ۲۳ ژوئن ۱۹۰۸.", tag:"تاریخ دقیق" },
+      { clue: "فرماندهٔ بریگاد قزاق (با افسران روس) که در به توپ بستن مجلس نقش محوری داشت چه نام داشت؟", answer: "پاسخ: ولادیمیر لیاخوف (Vladimir Liakhov).", tag:"شخصیت" },
+      { clue: "پس از سرکوب مجلس ۱۹۰۸، این دوره در تاریخ مشروطه با این نام مشهور شد.", answer: "پاسخ: استبداد صغیر.", tag:"دوره" },
+      { clue: "این شاه پس از مرگ پدرش در اوایل ۱۹۰۷ به سلطنت رسید و با مشروطه سرِ ناسازگاری داشت.", answer: "پاسخ: محمدعلی‌شاه قاجار.", tag:"پادشاه" },
+      { clue: "پرسش دقیق: «استبداد صغیر» تقریباً بین کدام دو رویداد بزرگ قرار می‌گیرد؟", answer: "پاسخ پیشنهادی: از سرکوب مجلس (ژوئن ۱۹۰۸) تا پیروزی نیروهای مشروطه‌خواه و سقوط/خلع محمدعلی‌شاه (۱۹۰۹).", tag:"زمان‌بندی" },
     ]
   },
   {
-    category: "Special Districts",
+    category: "نیروهای مشروطه‌خواه",
     clues: [
-      { clue: "These mapped areas modify underlying zoning rules to achieve neighborhood-specific goals (examples: Downtown Brooklyn, Special Hudson Yards).", answer: "What are Special Purpose Districts (Special Districts)?", tag:"special" },
-      { clue: "A Special District can add requirements for this ground-level feature to support active streets.", answer: "What are ground-floor retail / active frontage requirements?", tag:"urbanism" },
-      { clue: "This special district concept often aims to preserve a corridor’s character via tailored use/bulk rules.", answer: "What is a corridor preservation / contextual special district approach? (Accept: special district contextual controls.)", tag:"character" },
-      { clue: "Many Special District actions require this public review process in NYC.", answer: "What is ULURP?", tag:"procedure" },
-      { clue: "A zoning lot within a Special District may be subject to additional findings made by this NYC body for certain permits.", answer: "What is the City Planning Commission (CPC)?", tag:"governance" },
+      { clue: "دو چهرهٔ مشهور مقاومت تبریز در دورهٔ استبداد صغیر که نامشان اغلب کنار هم می‌آید چه کسانی‌اند؟", answer: "پاسخ: ستارخان و باقرخان.", tag:"تبریز" },
+      { clue: "در ۱۹۰۹ نیروهای مشروطه‌خواه از این ناحیه/استان مهم به سمت تهران حرکت کردند (در روایت‌های رایج).", answer: "پاسخ: آذربایجان (به‌ویژه محور تبریز).", tag:"جغرافیا" },
+      { clue: "با سقوط محمدعلی‌شاه، این شاهِ خردسال به سلطنت رسید (در چارچوب بازگشت مشروطه).", answer: "پاسخ: احمدشاه قاجار.", tag:"جانشینی" },
+      { clue: "سؤال تحلیلی: چرا تبریز به کانون مقاومت تبدیل شد؟ یک عامل سیاسی و یک عامل سازمانی بگو.", answer: "پاسخ پیشنهادی: شبکه‌های شهری/بازاری و سازماندهی نیروها + پیوندهای سیاسیِ مشروطه‌خواهی در منطقه.", tag:"تحلیل" },
+      { clue: "یک عبارت دقیق: «مشروطه‌خواهان تهران را … کردند و مشروطه را …». دو جای خالی را پر کن.", answer: "پاسخ: فتح کردند / احیا (یا بازاستقرار) کردند.", tag:"عبارت" },
     ]
   },
   {
-    category: "NYC Planning History",
+    category: "مفاهیم سیاسی و نهادها",
     clues: [
-      { clue: "NYC’s first citywide Zoning Resolution was adopted in this year, pioneering modern zoning in the U.S.", answer: "What is 1916?", tag:"history" },
-      { clue: "NYC’s current (modernized) Zoning Resolution replaced the older framework in this year.", answer: "What is 1961?", tag:"history" },
-      { clue: "This planning leader is closely associated with mid-20th-century NYC infrastructure building and urban renewal.", answer: "Who is Robert Moses?", tag:"history" },
-      { clue: "A major shift in NYC planning emphasized community input; one emblematic process is…", answer: "What is ULURP (formalized citywide public review) / community-based planning? (Accept ULURP as key.)", tag:"civics" },
-      { clue: "The idea of using zoning to shape building form and street character more directly expanded in NYC with this broad approach.", answer: "What is contextual zoning (Quality Housing / contextual districts)?", tag:"policy" },
+      { clue: "نهادی که قرار بود قدرت حکومت را با قانون و نظارت محدود کند چیست؟", answer: "پاسخ: مجلس شورای ملی.", tag:"نهاد" },
+      { clue: "اصلی که می‌گوید قدرت به سه بخش تقسیم می‌شود (در متمم ۱۹۰۷ تصریح شد) چیست؟", answer: "پاسخ: تفکیک قوا (قوه مقننه/مجریه/قضائیه).", tag:"اصل" },
+      { clue: "پرسش دقیق: اگر کسی بگوید «مشروطه یعنی دموکراسی کامل»، چه ایرادی به این جمله می‌گیری؟", answer: "پاسخ پیشنهادی: مشروطه گامی به سمت حکومت قانون بود، اما حق رأی/نمایندگی/قدرت‌های واقعی محدود و مناقشه‌برانگیز بود.", tag:"نقد" },
+      { clue: "این واژه در ادبیات مشروطه به معنای «ملت» یا «مردمِ سیاسی» پررنگ شد.", answer: "پاسخ: ملت.", tag:"واژه" },
+      { clue: "یک سؤال دام‌دار: قانون اساسی ۱۹۰۶ «تمام» چارچوب حقوق ملت را داشت یا نیاز به سند مکمل پیدا کرد؟", answer: "پاسخ: نیاز به سند مکمل پیدا کرد (متمم ۱۹۰۷).", tag:"دام" },
     ]
   },
   {
-    category: "Process & Acronyms",
+    category: "زمان‌نگار مشروطه",
     clues: [
-      { clue: "The NYC process for reviewing certain land use actions stands for Uniform Land Use Review…", answer: "What is ULURP (Uniform Land Use Review Procedure)?", tag:"process" },
-      { clue: "This NYC Charter-created body votes on many land use actions after CPC.", answer: "What is the City Council?", tag:"governance" },
-      { clue: "Before a CPC hearing, many actions require an environmental determination and documentation under this city manual/process.", answer: "What is CEQR?", tag:"environmental" },
-      { clue: "The earliest public-facing local review step in ULURP is typically at this level.", answer: "What is the Community Board?", tag:"procedure" },
-      { clue: "This borough-wide advisory vote in ULURP comes after the Community Board.", answer: "What is the Borough President (Borough Board may also be involved depending on action)?", tag:"procedure" },
+      { clue: "سال امضای قانون اساسی/قانون بنیادی (به میلادی).", answer: "پاسخ: ۱۹۰۶.", tag:"سال" },
+      { clue: "سال امضای متمم قانون اساسی (به میلادی).", answer: "پاسخ: ۱۹۰۷.", tag:"سال" },
+      { clue: "سال به توپ بستن مجلس (به میلادی).", answer: "پاسخ: ۱۹۰۸.", tag:"سال" },
+      { clue: "سال بازگشت/احیای مشروطه با فتح تهران و خلع محمدعلی‌شاه (به میلادی).", answer: "پاسخ: ۱۹۰۹.", tag:"سال" },
+      { clue: "یک جمع‌بندی: اگر انقلاب مشروطه را حدوداً ۱۹۰۵ تا ۱۹۱۱ بگیریم، پایان بحران اصلی در منابع رایج با این رویدادِ ۱۹۱۱ گره می‌خورد: …", answer: "پاسخ پیشنهادی: پایان کار مجلس دوم/فشار نیروهای روسیه و اخراج/تعطیلیِ مجلس (روایت‌های مختلف وجود دارد).", tag:"جمع‌بندی" },
     ]
-  }
+  },
 ];
 
-// Final Jeopardy question
 const FINAL = {
-  category: "FINAL: NYC Zoning",
-  clue: "This 1961 Zoning Resolution innovation tied allowable floor area to a numerical ratio that planners cite constantly.",
-  answer: "What is FAR (Floor Area Ratio)?",
-  tag: "final"
+  category: "نهایی: یک تاریخِ دقیق",
+  clue: "کدام رویداد در ۲۳ ژوئن ۱۹۰۸ رخ داد و نامش در تاریخ مشروطه ماندگار شد؟",
+  answer: "پاسخ: به توپ بستن مجلس شورای ملی (Bombardment of the Majlis).",
+  tag: "نهایی"
 };
 
-// --- Game state ---
-let used = new Set();          // key: `${c}-${r}`
-let score = 0;
-let current = null;            // {cIdx, rIdx, clueObj, value}
-let dailyDoubleKey = null;     // one random clue key
+// --- State ---
+let used = new Set();         // key `${c}-${r}`
+let dailyDoubleKey = null;
 let progress = 0;
+
+let players = [];             // [{name, score, key}]
+let activeChooser = 0;        // index of player who chooses next
+let current = null;           // {cIdx, rIdx, clueObj, value, key, dd}
+let buzzedBy = null;          // player index
 
 const els = {
   catRow: document.getElementById('catRow'),
@@ -602,30 +622,40 @@ const els = {
   answerText: document.getElementById('answerText'),
   tagPill: document.getElementById('tagPill'),
   ddPill: document.getElementById('ddPill'),
-  announcerBubble: document.getElementById('announcerBubble'),
-  scoreVal: document.getElementById('scoreVal'),
-  progressPill: document.getElementById('progressPill'),
+  whoBuzzed: document.getElementById('whoBuzzed'),
   moneyTag: document.getElementById('moneyTag'),
-  toggleVoice: document.getElementById('toggleVoice'),
-  toggleSfx: document.getElementById('toggleSfx'),
+  announcerBubble: document.getElementById('announcerBubble'),
+  progressPill: document.getElementById('progressPill'),
+  scorebox: document.getElementById('scorebox'),
+
+  playerCount: document.getElementById('playerCount'),
+  p1: document.getElementById('p1'),
+  p2: document.getElementById('p2'),
+  p3: document.getElementById('p3'),
+  p4: document.getElementById('p4'),
+
+  btnStart: document.getElementById('btnStart'),
   btnNew: document.getElementById('btnNew'),
-  btnRevealAll: document.getElementById('btnRevealAll'),
   btnResetScore: document.getElementById('btnResetScore'),
+
   btnClose: document.getElementById('btnClose'),
   btnShowAnswer: document.getElementById('btnShowAnswer'),
   btnAnnounce: document.getElementById('btnAnnounce'),
   btnCorrect: document.getElementById('btnCorrect'),
   btnWrong: document.getElementById('btnWrong'),
   btnLock: document.getElementById('btnLock'),
-  plusBtn: document.getElementById('plusBtn'),
-  minusBtn: document.getElementById('minusBtn'),
-  btnFinal: document.getElementById('btnFinal'),
+
+  toggleVoice: document.getElementById('toggleVoice'),
+  toggleSfx: document.getElementById('toggleSfx'),
 };
 
 function money(n){
-  const sign = n < 0 ? "-" : "";
-  const abs = Math.abs(n);
-  return `${sign}$${abs.toLocaleString()}`;
+  return `${n.toLocaleString('fa-IR')} امتیاز`;
+}
+
+function setAnnouncer(html, voiceText=null){
+  els.announcerBubble.innerHTML = html;
+  if(voiceText) speak(voiceText);
 }
 
 function beep(freq=520, ms=90){
@@ -648,28 +678,41 @@ function speak(text){
   if(!els.toggleVoice.checked) return;
   if(!('speechSynthesis' in window)) return;
   const u = new SpeechSynthesisUtterance(text);
+  u.lang = "fa-IR";
   u.rate = 1.02;
-  u.pitch = 0.9;
-  u.volume = 1.0;
-  // Use a default voice; user can set OS voice settings if they want.
+  u.pitch = 0.95;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(u);
 }
 
-function setAnnouncer(html, voiceText=null){
-  els.announcerBubble.innerHTML = html;
-  if(voiceText) speak(voiceText);
-}
-
 function pickDailyDouble(){
-  // Choose a random cell among all 30
   const c = Math.floor(Math.random() * QUESTIONS.length);
   const r = Math.floor(Math.random() * 5);
   dailyDoubleKey = `${c}-${r}`;
 }
 
+function updateProgress(){
+  const total = QUESTIONS.length * 5;
+  els.progressPill.textContent = `${progress.toLocaleString('fa-IR')} / ${total.toLocaleString('fa-IR')}`;
+}
+
+function renderScores(){
+  els.scorebox.innerHTML = "";
+  players.forEach((p, idx) => {
+    const row = document.createElement('div');
+    row.className = "scoreRow" + (idx === activeChooser ? " active" : "");
+    row.innerHTML = `
+      <div class="playerTag">
+        <b>${escapeHtml(p.name)}</b>
+        <span>کلید Buzz: ${p.key}</span>
+      </div>
+      <div class="scoreVal">${p.score.toLocaleString('fa-IR')}</div>
+    `;
+    els.scorebox.appendChild(row);
+  });
+}
+
 function renderBoard(){
-  // Categories row
   els.catRow.innerHTML = "";
   QUESTIONS.forEach(q => {
     const d = document.createElement('div');
@@ -678,7 +721,6 @@ function renderBoard(){
     els.catRow.appendChild(d);
   });
 
-  // Cells
   els.cells.innerHTML = "";
   for(let r=0; r<5; r++){
     for(let c=0; c<QUESTIONS.length; c++){
@@ -686,17 +728,16 @@ function renderBoard(){
       const cell = document.createElement('div');
       cell.className = "cell";
 
-      // Daily Double badge (only if not used yet)
       if(key === dailyDoubleKey && !used.has(key)){
         const badge = document.createElement('div');
         badge.className = "dd-badge";
-        badge.textContent = "DAILY";
+        badge.textContent = "دیلی";
         cell.appendChild(badge);
       }
 
       const btn = document.createElement('button');
-      btn.textContent = `$${VALUES[r]}`;
-      btn.setAttribute('aria-label', `${QUESTIONS[c].category} for ${VALUES[r]}`);
+      btn.textContent = VALUES[r].toString();
+      btn.setAttribute('aria-label', `${QUESTIONS[c].category} برای ${VALUES[r]}`);
 
       if(used.has(key)){
         btn.classList.add('locked');
@@ -705,6 +746,10 @@ function renderBoard(){
 
       btn.addEventListener('click', () => {
         if(used.has(key)) return;
+        if(!players.length){
+          setAnnouncer(`<div><b>اول شروع کن.</b></div><div class="small">نام‌ها را وارد کن و «شروع بازی» را بزن.</div>`);
+          return;
+        }
         openClue(c, r);
       });
 
@@ -713,18 +758,8 @@ function renderBoard(){
     }
   }
 
-  updateScore(0);
   updateProgress();
-}
-
-function updateScore(delta){
-  score += delta;
-  els.scoreVal.textContent = money(score);
-}
-
-function updateProgress(){
-  const total = QUESTIONS.length * 5;
-  els.progressPill.textContent = `${progress} / ${total}`;
+  renderScores();
 }
 
 function openClue(cIdx, rIdx){
@@ -732,36 +767,35 @@ function openClue(cIdx, rIdx){
   const clueObj = q.clues[rIdx];
   const value = VALUES[rIdx];
   const key = `${cIdx}-${rIdx}`;
-
-  current = { cIdx, rIdx, clueObj, value, key };
-
   const isDD = (key === dailyDoubleKey);
 
+  current = { cIdx, rIdx, clueObj, value, key, dd: isDD };
+  buzzedBy = null;
+
   els.modalTitle.textContent = q.category;
-  els.modalMeta.textContent = `${money(value)} • Row ${rIdx+1} of 5`;
+  els.modalMeta.textContent = `ارزش: ${value.toLocaleString('fa-IR')} • انتخاب‌کننده: ${players[activeChooser].name}`;
   els.clueText.textContent = clueObj.clue;
   els.answerText.className = "answer";
   els.answerText.textContent = clueObj.answer;
 
-  els.tagPill.textContent = clueObj.tag || "nyc";
+  els.tagPill.textContent = clueObj.tag || "مشروطه";
   els.ddPill.style.display = isDD ? "inline-flex" : "none";
+  els.moneyTag.textContent = value.toLocaleString('fa-IR');
 
-  els.moneyTag.textContent = money(value);
+  els.whoBuzzed.textContent = "هنوز کسی Buzz نکرده…";
 
   els.modal.classList.add('open');
 
-  // Announce
   if(isDD){
     beep(220, 120); beep(330, 120); beep(440, 120);
     setAnnouncer(
-      `<div><b>DAILY DOUBLE!</b></div><div class="small">Wager if you want — or just play it straight.</div>`,
-      "Daily Double! Make your wager."
+      `<div><b>دیلی دابل!</b></div><div class="small">اول Buzz، بعد پاسخ. امتیازش دو برابر نیست—اما هیجانش هست.</div>`,
+      "دیلی دابل!"
     );
   }else{
     beep(520, 70);
     setAnnouncer(
-      `<div><b>${q.category}</b></div><div class="small">${money(value)} clue. Don’t overthink it.</div>`,
-      `${q.category}. ${money(value)}.`
+      `<div><b>${players[activeChooser].name}</b> انتخاب می‌کند.</div><div class="small">حالا با ۱ تا ۴ Buzz کنید.</div>`
     );
   }
 }
@@ -769,105 +803,131 @@ function openClue(cIdx, rIdx){
 function closeClue(){
   els.modal.classList.remove('open');
   current = null;
+  buzzedBy = null;
+}
+
+function showAnswer(){
+  els.answerText.classList.add('show');
+  setAnnouncer(`<div><b>پاسخ نمایش داده شد.</b></div><div class="small">حالا «درست/غلط» را بزنید.</div>`);
+}
+
+function announceClue(){
+  if(!current) return;
+  const t = `${els.modalTitle.textContent}. ارزش ${current.value}. ${current.clueObj.clue}`;
+  speak(t);
 }
 
 function lockClue(){
   if(!current) return;
   if(used.has(current.key)) return;
-
   used.add(current.key);
   progress += 1;
-  updateProgress();
   renderBoard();
+}
+
+function applyScore(delta, playerIdx){
+  players[playerIdx].score += delta;
+  renderScores();
 }
 
 function markCorrect(){
   if(!current) return;
-  updateScore(current.value);
+  if(buzzedBy === null){
+    setAnnouncer(`<div><b>اول Buzz!</b></div><div class="small">یکی باید با ۱ تا ۴ Buzz کند تا امتیاز حساب شود.</div>`);
+    beep(180, 120);
+    return;
+  }
+  applyScore(current.value, buzzedBy);
   beep(660, 90);
-  setAnnouncer(
-    `<div><b>Correct.</b></div><div class="small">Take your points like it’s a CPC vote.</div>`,
-    "Correct."
-  );
+  setAnnouncer(`<div><b>درست ✅</b></div><div class="small">${players[buzzedBy].name} امتیاز گرفت و انتخاب‌کننده بعدی است.</div>`, "درست");
+  activeChooser = buzzedBy; // winner chooses next
+  renderScores();
 }
 
 function markWrong(){
   if(!current) return;
-  updateScore(-current.value);
+  if(buzzedBy === null){
+    setAnnouncer(`<div><b>اول Buzz!</b></div><div class="small">یکی باید با ۱ تا ۴ Buzz کند تا امتیاز حساب شود.</div>`);
+    beep(180, 120);
+    return;
+  }
+  applyScore(-current.value, buzzedBy);
   beep(180, 140);
-  setAnnouncer(
-    `<div><b>Nope.</b></div><div class="small">The zoning text is unforgiving. Try the next one.</div>`,
-    "Incorrect."
-  );
+  setAnnouncer(`<div><b>غلط ❌</b></div><div class="small">${players[buzzedBy].name} امتیاز از دست داد. انتخاب‌کننده ثابت می‌ماند.</div>`, "غلط");
 }
 
-function showAnswer(){
+function buzz(playerIdx){
   if(!current) return;
-  els.answerText.classList.add('show');
-  setAnnouncer(
-    `<div><b>Answer revealed.</b></div><div class="small">You can still score it yourself. Be honest.</div>`,
-    "Answer revealed."
-  );
-}
-
-function announceClue(){
-  if(!current) return;
-  const text = `${els.modalTitle.textContent}. For ${money(current.value)}. ${current.clueObj.clue}`;
-  speak(text);
+  if(buzzedBy !== null) return; // first buzz wins
+  buzzedBy = playerIdx;
+  els.whoBuzzed.textContent = `Buzz: ${players[playerIdx].name}`;
+  beep(520, 60);
 }
 
 function newGame(){
   used = new Set();
-  score = 0;
   progress = 0;
   pickDailyDouble();
+  activeChooser = 0;
   renderBoard();
-  setAnnouncer(
-    `<div><b>New game loaded.</b></div><div class="small">Pick a clue. Then decide: were you right?</div>`,
-    "New game loaded."
-  );
+  setAnnouncer(`<div><b>بازی جدید.</b></div><div class="small">از خانه‌های ۲۰۰ شروع کنید اگر می‌خواهید گرم شوید.</div>`);
 }
 
-function revealAll(){
-  // Testing only: reveal the answers in a quick modal sequence? We'll just show a note.
-  setAnnouncer(
-    `<div><b>Testing mode.</b></div><div class="small">Click clues and hit “Show Answer.”</div>`,
-    "Testing mode."
-  );
+function resetScores(){
+  players.forEach(p => p.score = 0);
+  activeChooser = 0;
+  renderScores();
+  setAnnouncer(`<div><b>امتیازها صفر شد.</b></div><div class="small">این بار سخت‌گیرانه‌تر بازی کنید.</div>`);
 }
 
-function resetScore(){
-  score = 0;
-  els.scoreVal.textContent = money(score);
-  setAnnouncer(
-    `<div><b>Score reset.</b></div><div class="small">No shame. Zoning is deep.</div>`,
-    "Score reset."
-  );
+function startGame(){
+  const n = parseInt(els.playerCount.value, 10);
+  const names = [els.p1.value, els.p2.value, els.p3.value, els.p4.value].slice(0, n);
+  players = names.map((nm, i) => ({
+    name: (nm || `بازیکن ${i+1}`).trim(),
+    score: 0,
+    key: (i+1).toString()
+  }));
+  newGame();
+  setAnnouncer(`<div><b>شروع شد.</b></div><div class="small">${players[activeChooser].name} انتخاب می‌کند. Buzz با ۱–${n}.</div>`);
 }
 
+// Utility: safe text in scorebox
+function escapeHtml(s){
+  return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+// Final Jeopardy (اختیاری)
 function playFinal(){
-  // Final Jeopardy as a modal using same dialog
-  current = { cIdx: -1, rIdx: -1, clueObj: FINAL, value: 0, key: "FINAL" };
+  if(!players.length){
+    setAnnouncer(`<div><b>اول شروع کن.</b></div><div class="small">نام‌ها را وارد کن و «شروع بازی» را بزن.</div>`);
+    return;
+  }
+  current = { cIdx:-1, rIdx:-1, clueObj: FINAL, value: 1000, key:"FINAL", dd:false };
+  buzzedBy = null;
 
   els.modalTitle.textContent = FINAL.category;
-  els.modalMeta.textContent = `Wager manually using +/− after reveal`;
+  els.modalMeta.textContent = `نهایی • Buzz با ۱–${players.length}`;
   els.clueText.textContent = FINAL.clue;
   els.answerText.className = "answer";
   els.answerText.textContent = FINAL.answer;
-
-  els.tagPill.textContent = FINAL.tag || "final";
+  els.tagPill.textContent = FINAL.tag;
   els.ddPill.style.display = "none";
-  els.moneyTag.textContent = "FINAL";
+  els.moneyTag.textContent = "نهایی";
+  els.whoBuzzed.textContent = "هنوز کسی Buzz نکرده…";
 
   els.modal.classList.add('open');
   beep(300, 80); beep(360, 80); beep(420, 120);
-  setAnnouncer(
-    `<div><b>Final Jeopardy.</b></div><div class="small">Make your wager… then reveal and judge yourself.</div>`,
-    "Final Jeopardy."
-  );
+  setAnnouncer(`<div><b>سؤال نهایی.</b></div><div class="small">اول Buzz، بعد پاسخ. بعد داور درست/غلط را می‌زند.</div>`, "سؤال نهایی");
 }
 
 // --- Wire UI ---
+els.btnStart.addEventListener('click', startGame);
+els.btnNew.addEventListener('click', () => {
+  if(!players.length) startGame(); else newGame();
+});
+els.btnResetScore.addEventListener('click', resetScores);
+
 els.btnClose.addEventListener('click', closeClue);
 els.modal.addEventListener('click', (e)=>{ if(e.target === els.modal) closeClue(); });
 
@@ -877,31 +937,37 @@ els.btnCorrect.addEventListener('click', markCorrect);
 els.btnWrong.addEventListener('click', markWrong);
 els.btnLock.addEventListener('click', () => { lockClue(); closeClue(); });
 
-els.plusBtn.addEventListener('click', () => {
-  if(!current){ setAnnouncer(`<div><b>Tip:</b></div><div class="small">Open a clue, then score it with Correct/Wrong.</div>`); return; }
-  markCorrect();
-});
-els.minusBtn.addEventListener('click', () => {
-  if(!current){ setAnnouncer(`<div><b>Tip:</b></div><div class="small">Open a clue, then score it with Correct/Wrong.</div>`); return; }
-  markWrong();
-});
-
-els.btnNew.addEventListener('click', newGame);
-els.btnRevealAll.addEventListener('click', revealAll);
-els.btnResetScore.addEventListener('click', resetScore);
-els.btnFinal.addEventListener('click', playFinal);
-
-// Keyboard shortcuts
+// Keyboard: Buzz 1..4 even when modal open
 document.addEventListener('keydown', (e)=>{
   if(!els.modal.classList.contains('open')) return;
+
   if(e.key === 'Escape') closeClue();
-  if(e.key.toLowerCase() === 'a') showAnswer();
-  if(e.key === '+' || e.key === '=') markCorrect();
-  if(e.key === '-' || e.key === '_') markWrong();
-  if(e.key.toLowerCase() === 'l'){ lockClue(); closeClue(); }
+  if(e.key === 'a' || e.key === 'A') showAnswer();             // A = Answer
+  if(e.key === 'r' || e.key === 'R') markCorrect();            // R = Right
+  if(e.key === 'w' || e.key === 'W') markWrong();              // W = Wrong
+  if(e.key === 'l' || e.key === 'L'){ lockClue(); closeClue(); } // L = Lock
+
+  // Buzz: '1'..'4'
+  const k = e.key;
+  if(k === '1') buzz(0);
+  if(k === '2') buzz(1);
+  if(k === '3') buzz(2);
+  if(k === '4') buzz(3);
 });
 
-newGame();
+// Initial UI state: hide extra name inputs based on player count
+function syncNameInputs(){
+  const n = parseInt(els.playerCount.value, 10);
+  els.p3.style.display = (n >= 3) ? "inline-block" : "none";
+  els.p4.style.display = (n >= 4) ? "inline-block" : "none";
+}
+els.playerCount.addEventListener('change', syncNameInputs);
+syncNameInputs();
+
+// Render empty board at load
+pickDailyDouble();
+renderBoard();
+setAnnouncer(`<div><b>آماده‌اید؟</b></div><div class="small">نام‌ها را وارد کنید و «شروع بازی» را بزنید.</div>`);
 </script>
 
 </body>
