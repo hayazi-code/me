@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Your Name — work, accomplishments, and what I’m about." />
+
+  <style>
+    :root{
+      --bg: #0b0f17;
+      --panel: rgba(255,255,255,0.06);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --faint: rgba(255,255,255,0.18);
+      --accent: #6ee7ff;
+      --accent2:#a78bfa;
+      --good:#86efac;
+      --warn:#fde68a;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --max: 1050px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1000px 700px at 12% 10%, rgba(110,231,255,0.18), transparent 55%),
+        radial-gradient(900px 600px at 88% 18%, rgba(167,139,250,0.16), transparent 60%),
+        radial-gradient(900px 700px at 55% 90%, rgba(134,239,172,0.08), transparent 60%),
+        var(--bg);
+      line-height:1.55;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 80px;}
+    .nav{
+      position: sticky; top: 0;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(11,15,23,0.78), rgba(11,15,23,0.40));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 10;
+    }
+    .nav-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(110,231,255,0.9), rgba(167,139,250,0.85));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      font-weight:700;
+      color:#081018;
+    }
+    .brand b{letter-spacing:0.2px}
+    .nav-links{
+      display:flex; flex-wrap:wrap; gap:10px;
+      align-items:center;
+    }
+    .chip{
+      text-decoration:none;
+      padding:9px 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      border-radius:999px;
+      font-size:14px;
+      color:var(--muted);
+      transition:transform 120ms ease, background 120ms ease, border-color 120ms ease;
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color:var(--text)}
+    .hero{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+    }
+    .card{
+      background: var(--panel);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card.pad{padding:22px}
+    .kicker{
+      font-family: var(--mono);
+      font-size:12px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    h1{
+      margin:10px 0 10px;
+      font-size:42px;
+      line-height:1.05;
+      letter-spacing:-0.02em;
+    }
+    @media (max-width: 520px){
+      h1{font-size:34px}
+    }
+    .sub{
+      color: var(--muted);
+      font-size:16px;
+      max-width: 65ch;
+      margin: 0 0 18px;
+    }
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin-top: 14px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.07);
+      text-decoration:none;
+      color: var(--text);
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+      font-weight:600;
+      font-size:14px;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.24)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(110,231,255,0.30), rgba(167,139,250,0.26));
+      border-color: rgba(110,231,255,0.25);
+    }
+    .meta-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top: 16px;
+    }
+    .meta{
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+    .meta .label{color: var(--muted); font-size:12px; letter-spacing:0.08em; text-transform:uppercase}
+    .meta .value{margin-top:6px; font-weight:650}
+    .avatar{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      padding:22px;
+      position:relative;
+    }
+    .avatar .photo{
+      width:96px; height:96px;
+      border-radius: 26px;
+      border:1px solid rgba(255,255,255,0.16);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(110,231,255,0.55), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(167,139,250,0.45), transparent 55%),
+        rgba(255,255,255,0.06);
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      font-weight:800;
+      color: rgba(255,255,255,0.85);
+      font-size: 22px;
+    }
+    .tagline{
+      margin-top:14px;
+      color: var(--muted);
+      font-size:14px;
+    }
+    .facts{
+      margin-top:18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .fact{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--accent);
+      margin-top:5px;
+      box-shadow: 0 0 0 4px rgba(110,231,255,0.12);
+      flex: 0 0 auto;
+    }
+    .section{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .section h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing: -0.01em;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns: 1fr}
+    }
+    .item{
+      padding:16px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+    .item h3{margin:6px 0 6px; font-size:15px}
+    .item p{margin:0; color: var(--muted); font-size:14px}
+    .pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px}
+    .pill{
+      font-family: var(--mono);
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.78);
+    }
+    .timeline{
+      display:grid;
+      gap:12px;
+    }
+    .trow{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap:12px;
+      padding:14px 16px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+    @media (max-width: 600px){
+      .trow{grid-template-columns: 1fr}
+    }
+    .tdate{
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.72);
+      font-size:12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .trow b{display:block; margin-bottom:4px}
+    .footer{
+      margin-top: 26px;
+      color: rgba(255,255,255,0.60);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      padding-top: 18px;
+    }
+    .small{font-size:12px; color: rgba(255,255,255,0.55)}
+    .sr-only{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Home">
+        <div class="logo">YN</div>
+        <b>Your Name</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="chip" href="#about">About</a>
+        <a class="chip" href="#highlights">Highlights</a>
+        <a class="chip" href="#projects">Projects</a>
+        <a class="chip" href="#writing">Writing</a>
+        <a class="chip" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero">
+      <div class="card pad">
+        <div class="kicker">Positioning</div>
+        <h1>Your Name</h1>
+        <p class="sub">
+          I do <b>[your craft]</b> at the intersection of <b>[domain A]</b> and <b>[domain B]</b>.
+          I care about <b>[what you optimize for]</b> and I’m known for <b>[your unfair advantage]</b>.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn primary" href="#contact">Contact me</a>
+          <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn" href="resume.pdf" target="_blank" rel="noreferrer">Résumé (PDF)</a>
+        </div>
+
+        <div class="meta-grid" aria-label="Quick facts">
+          <div class="meta">
+            <div class="label">Current role</div>
+            <div class="value">[Title] — [Org]</div>
+          </div>
+          <div class="meta">
+            <div class="label">Based in</div>
+            <div class="value">[City, Country]</div>
+          </div>
+          <div class="meta">
+            <div class="label">Focus</div>
+            <div class="value">[3–5 words that define your focus]</div>
+          </div>
+          <div class="meta">
+            <div class="label">Email</div>
+            <div class="value"><a href="mailto:you@email.com">you@email.com</a></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card avatar">
+        <div>
+          <div class="kicker">Snapshot</div>
+          <div style="display:flex; gap:14px; align-items:center; margin-top:12px;">
+            <div class="photo" aria-hidden="true">🙂</div>
+            <div>
+              <div style="font-weight:750; font-size:16px;">Your Name</div>
+              <div class="tagline">Short human line: “Builder, planner, storyteller,” etc.</div>
+              <div class="pill-row" aria-label="Tags">
+                <span class="pill">Tag 1</span>
+                <span class="pill">Tag 2</span>
+                <span class="pill">Tag 3</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="facts" aria-label="Proof points">
+            <div class="fact"><span class="dot"></span><div><b>1-sentence win.</b> What did you ship / change / improve?</div></div>
+            <div class="fact"><span class="dot" style="background:var(--accent2); box-shadow:0 0 0 4px rgba(167,139,250,0.12)"></span><div><b>Quantify something.</b> “Reduced X by Y%,” “served N users,” etc.</div></div>
+            <div class="fact"><span class="dot" style="background:var(--good); box-shadow:0 0 0 4px rgba(134,239,172,0.12)"></span><div><b>Reputation signal.</b> Award, speaking, press, selective program, etc.</div></div>
+          </div>
+        </div>
+
+        <div class="small">
+          Tip: Replace the 🙂 with a real headshot by swapping the <span style="font-family:var(--mono)">.photo</span> div for an <span style="font-family:var(--mono)">&lt;img&gt;</span>.
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" class="section">
+      <div class="card pad">
+        <h2>About</h2>
+        <p style="margin:0; color:var(--muted); max-width:78ch;">
+          Write a tight paragraph that answers: <b>what you do</b>, <b>why you do it</b>, and <b>what kind of problems you want next</b>.
+          Include one contrarian belief you hold about your field—something you can defend.
+        </p>
+        <div class="pill-row" aria-label="Core skills">
+          <span class="pill">Skill / tool</span>
+          <span class="pill">Skill / tool</span>
+          <span class="pill">Skill / tool</span>
+          <span class="pill">Skill / tool</span>
+          <span class="pill">Skill / tool</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="highlights" class="section">
+      <div class="card pad">
+        <h2>Highlights</h2>
+        <div class="grid" role="list">
+          <div class="item" role="listitem">
+            <div class="kicker">Impact</div>
+            <h3>Accomplishment title</h3>
+            <p>One sentence: what changed, who benefited, and how you know.</p>
+          </div>
+          <div class="item" role="listitem">
+            <div class="kicker">Leadership</div>
+            <h3>Accomplishment title</h3>
+            <p>One sentence: what you led, what constraints existed, what you delivered.</p>
+          </div>
+          <div class="item" role="listitem">
+            <div class="kicker">Craft</div>
+            <h3>Accomplishment title</h3>
+            <p>One sentence: what you built/made and why it’s unusually good.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="card pad">
+        <h2>Projects</h2>
+        <div class="grid" role="list">
+          <div class="item" role="listitem">
+            <div class="kicker">Project</div>
+            <h3>Project name</h3>
+            <p>2–3 lines: problem → approach → result. Link to demo/repo/case study.</p>
+            <div class="pill-row">
+              <span class="pill">Tech/skill</span><span class="pill">Tech/skill</span><span class="pill">Tech/skill</span>
+            </div>
+          </div>
+          <div class="item" role="listitem">
+            <div class="kicker">Project</div>
+            <h3>Project name</h3>
+            <p>2–3 lines: problem → approach → result. Link to demo/repo/case study.</p>
+            <div class="pill-row">
+              <span class="pill">Tech/skill</span><span class="pill">Tech/skill</span><span class="pill">Tech/skill</span>
+            </div>
+          </div>
+          <div class="item" role="listitem">
+            <div class="kicker">Project</div>
+            <h3>Project name</h3>
+            <p>2–3 lines: problem → approach → result. Link to demo/repo/case study.</p>
+            <div class="pill-row">
+              <span class="pill">Tech/skill</span><span class="pill">Tech/skill</span><span class="pill">Tech/skill</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="writing" class="section">
+      <div class="card pad">
+        <h2>Writing / Talks</h2>
+        <div class="timeline" role="list">
+          <div class="trow" role="listitem">
+            <div class="tdate">2026</div>
+            <div>
+              <b>Title of piece or talk</b>
+              <div style="color:var(--muted); font-size:14px;">What it argues or teaches in one sentence. <a href="#" target="_blank" rel="noreferrer">Link</a></div>
+            </div>
+          </div>
+          <div class="trow" role="listitem">
+            <div class="tdate">2025</div>
+            <div>
+              <b>Title of piece or talk</b>
+              <div style="color:var(--muted); font-size:14px;">What it argues or teaches in one sentence. <a href="#" target="_blank" rel="noreferrer">Link</a></div>
+            </div>
+          </div>
+          <div class="trow" role="listitem">
+            <div class="tdate">2024</div>
+            <div>
+              <b>Title of piece or talk</b>
+              <div style="color:var(--muted); font-size:14px;">What it argues or teaches in one sentence. <a href="#" target="_blank" rel="noreferrer">Link</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="card pad">
+        <h2>Contact</h2>
+        <p style="margin:0 0 12px; color:var(--muted); max-width:78ch;">
+          Best way to reach me: email. If you message me, include what you’re trying to accomplish and why you think I can help.
+        </p>
+
+        <div class="grid">
+          <div class="item">
+            <div class="kicker">Email</div>
+            <h3><a href="mailto:you@email.com">you@email.com</a></h3>
+            <p>Response time: [e.g., 1–2 business days].</p>
+          </div>
+          <div class="item">
+            <div class="kicker">Social</div>
+            <h3><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a></h3>
+            <p>Or wherever you want people to find you.</p>
+          </div>
+          <div class="item">
+            <div class="kicker">Calendar</div>
+            <h3><a href="#" target="_blank" rel="noreferrer">Book 15 minutes</a></h3>
+            <p>Optional. Only if you actually want cold invites.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>© <span id="year"></span> Your Name</div>
+        <div class="small">Built with one HTML file. No framework. Fast.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
