@@ -1,510 +1,908 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Name — Portfolio</title>
-  <meta name="description" content="Your Name — work, accomplishments, and what I’m about." />
-
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>NYC Zoning & Planning Jeopardy</title>
   <style>
     :root{
-      --bg: #0b0f17;
-      --panel: rgba(255,255,255,0.06);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.70);
-      --faint: rgba(255,255,255,0.18);
-      --accent: #6ee7ff;
-      --accent2:#a78bfa;
-      --good:#86efac;
-      --warn:#fde68a;
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --radius: 18px;
-      --max: 1050px;
+      --bg:#070a12;
+      --panel:#0b1230;
+      --panel2:#0a0f26;
+      --line:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --gold:#ffd76a;
+      --blue:#1d3cff;
+      --blue2:#0d2aa5;
+      --green:#52ffa8;
+      --red:#ff5a78;
+      --shadow: 0 18px 50px rgba(0,0,0,.55);
+      --radius:18px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: var(--sans);
-      color: var(--text);
       background:
-        radial-gradient(1000px 700px at 12% 10%, rgba(110,231,255,0.18), transparent 55%),
-        radial-gradient(900px 600px at 88% 18%, rgba(167,139,250,0.16), transparent 60%),
-        radial-gradient(900px 700px at 55% 90%, rgba(134,239,172,0.08), transparent 60%),
+        radial-gradient(900px 600px at 15% 15%, rgba(29,60,255,.25), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(255,215,106,.14), transparent 55%),
+        radial-gradient(900px 700px at 55% 95%, rgba(82,255,168,.12), transparent 60%),
         var(--bg);
-      line-height:1.55;
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.35;
     }
-    a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 80px;}
-    .nav{
-      position: sticky; top: 0;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(11,15,23,0.78), rgba(11,15,23,0.40));
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      z-index: 10;
-    }
-    .nav-inner{
-      max-width:var(--max);
+
+    .wrap{
+      max-width:1200px;
       margin:0 auto;
-      padding:14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none;
-    }
-    .logo{
-      width:36px; height:36px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(110,231,255,0.9), rgba(167,139,250,0.85));
-      box-shadow: var(--shadow);
-      display:grid; place-items:center;
-      font-weight:700;
-      color:#081018;
-    }
-    .brand b{letter-spacing:0.2px}
-    .nav-links{
-      display:flex; flex-wrap:wrap; gap:10px;
-      align-items:center;
-    }
-    .chip{
-      text-decoration:none;
-      padding:9px 12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.05);
-      border-radius:999px;
-      font-size:14px;
-      color:var(--muted);
-      transition:transform 120ms ease, background 120ms ease, border-color 120ms ease;
-    }
-    .chip:hover{transform: translateY(-1px); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color:var(--text)}
-    .hero{
-      margin-top:28px;
+      padding:18px 14px 24px;
       display:grid;
-      grid-template-columns: 1.4fr 0.9fr;
-      gap:18px;
-      align-items:stretch;
+      grid-template-columns: 1fr 330px;
+      gap:14px;
+      align-items:start;
     }
-    @media (max-width: 900px){
-      .hero{grid-template-columns:1fr}
+    @media (max-width: 980px){
+      .wrap{grid-template-columns: 1fr}
     }
-    .card{
-      background: var(--panel);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .card.pad{padding:22px}
-    .kicker{
-      font-family: var(--mono);
-      font-size:12px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color: var(--muted);
-    }
-    h1{
-      margin:10px 0 10px;
-      font-size:42px;
-      line-height:1.05;
-      letter-spacing:-0.02em;
-    }
-    @media (max-width: 520px){
-      h1{font-size:34px}
-    }
-    .sub{
-      color: var(--muted);
-      font-size:16px;
-      max-width: 65ch;
-      margin: 0 0 18px;
-    }
-    .cta-row{
+
+    header{
+      grid-column: 1 / -1;
       display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      margin-top: 14px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:11px 14px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.07);
-      text-decoration:none;
-      color: var(--text);
-      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
-      font-weight:600;
-      font-size:14px;
-    }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.24)}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(110,231,255,0.30), rgba(167,139,250,0.26));
-      border-color: rgba(110,231,255,0.25);
-    }
-    .meta-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
       gap:12px;
-      margin-top: 16px;
-    }
-    .meta{
-      padding:12px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-    }
-    .meta .label{color: var(--muted); font-size:12px; letter-spacing:0.08em; text-transform:uppercase}
-    .meta .value{margin-top:6px; font-weight:650}
-    .avatar{
-      height:100%;
-      display:flex;
-      flex-direction:column;
+      align-items:center;
       justify-content:space-between;
-      padding:22px;
-      position:relative;
-    }
-    .avatar .photo{
-      width:96px; height:96px;
-      border-radius: 26px;
-      border:1px solid rgba(255,255,255,0.16);
-      background:
-        radial-gradient(circle at 30% 30%, rgba(110,231,255,0.55), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(167,139,250,0.45), transparent 55%),
-        rgba(255,255,255,0.06);
+      padding:14px 14px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
       box-shadow: var(--shadow);
-      display:grid; place-items:center;
-      font-weight:800;
-      color: rgba(255,255,255,0.85);
-      font-size: 22px;
+      backdrop-filter: blur(10px);
     }
-    .tagline{
-      margin-top:14px;
-      color: var(--muted);
-      font-size:14px;
+    .title{
+      display:flex; flex-direction:column; gap:2px;
     }
-    .facts{
-      margin-top:18px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .fact{
-      display:flex; gap:10px; align-items:flex-start;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: var(--accent);
-      margin-top:5px;
-      box-shadow: 0 0 0 4px rgba(110,231,255,0.12);
-      flex: 0 0 auto;
-    }
-    .section{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    .section h2{
-      margin:0 0 10px;
+    .title h1{
+      margin:0;
       font-size:18px;
-      letter-spacing: -0.01em;
+      letter-spacing:.2px;
+    }
+    .title .sub{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .controls{
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    }
+    button, .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:12px;
+      letter-spacing:.2px;
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+      user-select:none;
+    }
+    button:hover, .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.28);
+    }
+    button:active{transform: translateY(0px)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(29,60,255,.35), rgba(255,215,106,.18));
+      border-color: rgba(29,60,255,.40);
+    }
+    .btn.danger{
+      border-color: rgba(255,90,120,.35);
+      background: rgba(255,90,120,.10);
+    }
+
+    /* Board */
+    .board{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(11,18,48,.85), rgba(10,15,38,.85));
+      box-shadow: var(--shadow);
     }
     .grid{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(6, 1fr);
     }
-    @media (max-width: 900px){
-      .grid{grid-template-columns: 1fr}
-    }
-    .item{
-      padding:16px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-    }
-    .item h3{margin:6px 0 6px; font-size:15px}
-    .item p{margin:0; color: var(--muted); font-size:14px}
-    .pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px}
-    .pill{
-      font-family: var(--mono);
+    .cat{
+      padding:12px 10px;
+      text-align:center;
+      font-weight:900;
       font-size:12px;
-      padding:6px 10px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      background: linear-gradient(180deg, rgba(29,60,255,.35), rgba(29,60,255,.10));
+      border-right:1px solid rgba(255,255,255,.12);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      min-height:64px;
+      display:grid;
+      place-items:center;
+    }
+    .cat:last-child{border-right:none}
+
+    .cell{
+      position:relative;
+      border-right:1px solid rgba(255,255,255,.10);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(13,42,165,.30), rgba(13,42,165,.06));
+      min-height:86px;
+      display:grid;
+      place-items:center;
+    }
+    .cell:nth-child(6n){border-right:none}
+    .cell button{
+      width:100%;
+      height:100%;
+      border:none;
+      border-radius:0;
+      background: transparent;
+      font-family: var(--mono);
+      font-size:28px;
+      font-weight:900;
+      color: var(--gold);
+      text-shadow: 0 2px 0 rgba(0,0,0,.6);
+    }
+    .cell button.locked{
+      color: rgba(255,255,255,.18);
+      text-shadow:none;
+      cursor:not-allowed;
+    }
+    .dd-badge{
+      position:absolute;
+      top:8px; left:8px;
+      font-family: var(--mono);
+      font-size:10px;
+      padding:5px 7px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.78);
+      background: rgba(255,215,106,.12);
+      border:1px solid rgba(255,215,106,.30);
+      color: rgba(255,215,106,.92);
+      letter-spacing:.08em;
     }
-    .timeline{
-      display:grid;
-      gap:12px;
+
+    /* Side panel */
+    aside{
+      position:sticky;
+      top:14px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .trow{
-      display:grid;
-      grid-template-columns: 140px 1fr;
-      gap:12px;
-      padding:14px 16px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-    }
-    @media (max-width: 600px){
-      .trow{grid-template-columns: 1fr}
-    }
-    .tdate{
-      font-family: var(--mono);
-      color: rgba(255,255,255,0.72);
-      font-size:12px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .trow b{display:block; margin-bottom:4px}
-    .footer{
-      margin-top: 26px;
-      color: rgba(255,255,255,0.60);
-      font-size: 13px;
+    .panel-head{
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
       display:flex;
       justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      border-top: 1px solid rgba(255,255,255,0.10);
-      padding-top: 18px;
+      gap:10px;
+      align-items:flex-start;
     }
-    .small{font-size:12px; color: rgba(255,255,255,0.55)}
-    .sr-only{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+    .scorebox{
+      padding:14px;
+      display:grid;
+      gap:10px;
+    }
+    .score{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .score .label{
+      font-size:12px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.10em;
+    }
+    .score .value{
+      font-family: var(--mono);
+      font-weight:900;
+      font-size:18px;
+    }
+    .score-controls{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .score-controls button{
+      flex: 1 1 70px;
+    }
+
+    /* Pixel announcer */
+    .announcer{
+      padding:14px;
+      display:grid;
+      grid-template-columns: 86px 1fr;
+      gap:12px;
+      align-items:start;
+      border-top:1px solid rgba(255,255,255,.10);
+      background: rgba(10,15,38,.35);
+    }
+    .pixel{
+      width:86px;
+      height:86px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.06), var(--shadow);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+    /* CSS “pixel art” using box-shadow squares */
+    .sprite{
+      width:8px; height:8px;
+      background: transparent;
+      transform: scale(4);
+      image-rendering: pixelated;
+      box-shadow:
+        /* hair */
+        1px 0px 0 #2a1b12, 2px 0px 0 #2a1b12, 3px 0px 0 #2a1b12, 4px 0px 0 #2a1b12, 5px 0px 0 #2a1b12,
+        0px 1px 0 #2a1b12, 1px 1px 0 #2a1b12, 2px 1px 0 #2a1b12, 3px 1px 0 #2a1b12, 4px 1px 0 #2a1b12, 5px 1px 0 #2a1b12, 6px 1px 0 #2a1b12,
+        0px 2px 0 #2a1b12, 1px 2px 0 #ffcfad, 2px 2px 0 #ffcfad, 3px 2px 0 #ffcfad, 4px 2px 0 #ffcfad, 5px 2px 0 #ffcfad, 6px 2px 0 #2a1b12,
+        /* face / glasses */
+        0px 3px 0 #2a1b12, 1px 3px 0 #ffcfad, 2px 3px 0 #1a2a66, 3px 3px 0 #ffcfad, 4px 3px 0 #1a2a66, 5px 3px 0 #ffcfad, 6px 3px 0 #2a1b12,
+        0px 4px 0 #2a1b12, 1px 4px 0 #ffcfad, 2px 4px 0 #ffcfad, 3px 4px 0 #ffcfad, 4px 4px 0 #ffcfad, 5px 4px 0 #ffcfad, 6px 4px 0 #2a1b12,
+        /* smile */
+        2px 5px 0 #ffcfad, 3px 5px 0 #c25a59, 4px 5px 0 #ffcfad,
+        /* suit */
+        1px 6px 0 #0d2aa5, 2px 6px 0 #0d2aa5, 3px 6px 0 #0d2aa5, 4px 6px 0 #0d2aa5, 5px 6px 0 #0d2aa5,
+        1px 7px 0 #0d2aa5, 2px 7px 0 #ffd76a, 3px 7px 0 #0d2aa5, 4px 7px 0 #ffd76a, 5px 7px 0 #0d2aa5;
+    }
+
+    .speech{
+      display:grid;
+      gap:8px;
+    }
+    .bubble{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.86);
+      font-size: 13px;
+      min-height: 44px;
+    }
+    .bubble .small{color:var(--muted); font-size:12px}
+    .toggles{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .toggles label{
+      display:flex; gap:8px; align-items:center;
+      font-size:12px; color:var(--muted);
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      user-select:none;
+    }
+    input[type="checkbox"]{transform: translateY(1px)}
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.62);
+      padding:18px;
+      z-index:50;
+    }
+    .modal.open{display:grid}
+    .dialog{
+      width:min(880px, 100%);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(11,18,48,.95), rgba(10,15,38,.95));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .dialog-head{
+      padding:14px 16px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .dialog-head .meta{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .dialog-head .meta b{font-size:13px; letter-spacing:.3px}
+    .dialog-head .meta span{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .dialog-body{
+      padding:18px 16px 14px;
+      display:grid;
+      gap:12px;
+    }
+    .clue{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.2px;
+      text-align:center;
+      margin: 6px auto 2px;
+      max-width: 45ch;
+      color: var(--gold);
+      text-shadow: 0 3px 0 rgba(0,0,0,.55);
+    }
+    .answer{
+      display:none;
+      margin: 0 auto;
+      max-width: 62ch;
+      text-align:center;
+      color: rgba(255,255,255,.88);
+      font-size: 14px;
+    }
+    .answer.show{display:block}
+    .dialog-actions{
+      padding:14px 16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      border-top:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+    }
+    .left-actions, .right-actions{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+    .money{
+      font-family: var(--mono);
+      font-weight:900;
+    }
+
+    /* Final Jeopardy */
+    .final-row{
+      padding:14px 14px 14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:grid;
+      gap:10px;
+    }
+    .final-row .hint{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .input{
+      width:100%;
+      padding:10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      font-family: var(--mono);
+      outline:none;
+    }
+    .input:focus{border-color: rgba(29,60,255,.55)}
+    .pill{
+      font-family: var(--mono);
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.78);
+    }
   </style>
 </head>
-
 <body>
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="#top" aria-label="Home">
-        <div class="logo">YN</div>
-        <b>Your Name</b>
-      </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a class="chip" href="#about">About</a>
-        <a class="chip" href="#highlights">Highlights</a>
-        <a class="chip" href="#projects">Projects</a>
-        <a class="chip" href="#writing">Writing</a>
-        <a class="chip" href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
 
-  <main id="top" class="wrap">
-    <section class="hero">
-      <div class="card pad">
-        <div class="kicker">Positioning</div>
-        <h1>Your Name</h1>
-        <p class="sub">
-          I do <b>[your craft]</b> at the intersection of <b>[domain A]</b> and <b>[domain B]</b>.
-          I care about <b>[what you optimize for]</b> and I’m known for <b>[your unfair advantage]</b>.
-        </p>
-
-        <div class="cta-row">
-          <a class="btn primary" href="#contact">Contact me</a>
-          <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="btn" href="resume.pdf" target="_blank" rel="noreferrer">Résumé (PDF)</a>
-        </div>
-
-        <div class="meta-grid" aria-label="Quick facts">
-          <div class="meta">
-            <div class="label">Current role</div>
-            <div class="value">[Title] — [Org]</div>
-          </div>
-          <div class="meta">
-            <div class="label">Based in</div>
-            <div class="value">[City, Country]</div>
-          </div>
-          <div class="meta">
-            <div class="label">Focus</div>
-            <div class="value">[3–5 words that define your focus]</div>
-          </div>
-          <div class="meta">
-            <div class="label">Email</div>
-            <div class="value"><a href="mailto:you@email.com">you@email.com</a></div>
-          </div>
-        </div>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>NYC Zoning & Planning Jeopardy</h1>
+        <div class="sub">Single-player board • Score yourself • Built for fast edits & expansion</div>
       </div>
+      <div class="controls">
+        <button class="btn primary" id="btnNew">New Game</button>
+        <button class="btn" id="btnRevealAll" title="For testing only">Reveal All</button>
+        <button class="btn danger" id="btnResetScore">Reset Score</button>
+      </div>
+    </header>
 
-      <aside class="card avatar">
+    <section class="board" aria-label="Jeopardy board">
+      <div class="grid" id="catRow"></div>
+      <div class="grid" id="cells"></div>
+    </section>
+
+    <aside aria-label="Score and announcer">
+      <div class="panel-head">
         <div>
-          <div class="kicker">Snapshot</div>
-          <div style="display:flex; gap:14px; align-items:center; margin-top:12px;">
-            <div class="photo" aria-hidden="true">🙂</div>
-            <div>
-              <div style="font-weight:750; font-size:16px;">Your Name</div>
-              <div class="tagline">Short human line: “Builder, planner, storyteller,” etc.</div>
-              <div class="pill-row" aria-label="Tags">
-                <span class="pill">Tag 1</span>
-                <span class="pill">Tag 2</span>
-                <span class="pill">Tag 3</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="facts" aria-label="Proof points">
-            <div class="fact"><span class="dot"></span><div><b>1-sentence win.</b> What did you ship / change / improve?</div></div>
-            <div class="fact"><span class="dot" style="background:var(--accent2); box-shadow:0 0 0 4px rgba(167,139,250,0.12)"></span><div><b>Quantify something.</b> “Reduced X by Y%,” “served N users,” etc.</div></div>
-            <div class="fact"><span class="dot" style="background:var(--good); box-shadow:0 0 0 4px rgba(134,239,172,0.12)"></span><div><b>Reputation signal.</b> Award, speaking, press, selective program, etc.</div></div>
-          </div>
+          <div style="font-weight:900; font-size:13px; letter-spacing:.3px;">Score</div>
+          <div style="color:var(--muted); font-size:12px;">Use + / − after each clue.</div>
         </div>
-
-        <div class="small">
-          Tip: Replace the 🙂 with a real headshot by swapping the <span style="font-family:var(--mono)">.photo</span> div for an <span style="font-family:var(--mono)">&lt;img&gt;</span>.
-        </div>
-      </aside>
-    </section>
-
-    <section id="about" class="section">
-      <div class="card pad">
-        <h2>About</h2>
-        <p style="margin:0; color:var(--muted); max-width:78ch;">
-          Write a tight paragraph that answers: <b>what you do</b>, <b>why you do it</b>, and <b>what kind of problems you want next</b>.
-          Include one contrarian belief you hold about your field—something you can defend.
-        </p>
-        <div class="pill-row" aria-label="Core skills">
-          <span class="pill">Skill / tool</span>
-          <span class="pill">Skill / tool</span>
-          <span class="pill">Skill / tool</span>
-          <span class="pill">Skill / tool</span>
-          <span class="pill">Skill / tool</span>
-        </div>
+        <span class="pill" id="progressPill">0 / 30</span>
       </div>
-    </section>
 
-    <section id="highlights" class="section">
-      <div class="card pad">
-        <h2>Highlights</h2>
-        <div class="grid" role="list">
-          <div class="item" role="listitem">
-            <div class="kicker">Impact</div>
-            <h3>Accomplishment title</h3>
-            <p>One sentence: what changed, who benefited, and how you know.</p>
+      <div class="scorebox">
+        <div class="score">
+          <div>
+            <div class="label">Player</div>
+            <div class="value" id="scoreVal">$0</div>
           </div>
-          <div class="item" role="listitem">
-            <div class="kicker">Leadership</div>
-            <h3>Accomplishment title</h3>
-            <p>One sentence: what you led, what constraints existed, what you delivered.</p>
-          </div>
-          <div class="item" role="listitem">
-            <div class="kicker">Craft</div>
-            <h3>Accomplishment title</h3>
-            <p>One sentence: what you built/made and why it’s unusually good.</p>
+          <div class="score-controls" style="min-width:160px;">
+            <button id="minusBtn">−</button>
+            <button id="plusBtn">+</button>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section id="projects" class="section">
-      <div class="card pad">
-        <h2>Projects</h2>
-        <div class="grid" role="list">
-          <div class="item" role="listitem">
-            <div class="kicker">Project</div>
-            <h3>Project name</h3>
-            <p>2–3 lines: problem → approach → result. Link to demo/repo/case study.</p>
-            <div class="pill-row">
-              <span class="pill">Tech/skill</span><span class="pill">Tech/skill</span><span class="pill">Tech/skill</span>
-            </div>
+        <div class="final-row">
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:space-between;">
+            <b style="font-size:13px;">Final Jeopardy</b>
+            <button class="btn" id="btnFinal">Play Final</button>
           </div>
-          <div class="item" role="listitem">
-            <div class="kicker">Project</div>
-            <h3>Project name</h3>
-            <p>2–3 lines: problem → approach → result. Link to demo/repo/case study.</p>
-            <div class="pill-row">
-              <span class="pill">Tech/skill</span><span class="pill">Tech/skill</span><span class="pill">Tech/skill</span>
-            </div>
-          </div>
-          <div class="item" role="listitem">
-            <div class="kicker">Project</div>
-            <h3>Project name</h3>
-            <p>2–3 lines: problem → approach → result. Link to demo/repo/case study.</p>
-            <div class="pill-row">
-              <span class="pill">Tech/skill</span><span class="pill">Tech/skill</span><span class="pill">Tech/skill</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="writing" class="section">
-      <div class="card pad">
-        <h2>Writing / Talks</h2>
-        <div class="timeline" role="list">
-          <div class="trow" role="listitem">
-            <div class="tdate">2026</div>
-            <div>
-              <b>Title of piece or talk</b>
-              <div style="color:var(--muted); font-size:14px;">What it argues or teaches in one sentence. <a href="#" target="_blank" rel="noreferrer">Link</a></div>
-            </div>
-          </div>
-          <div class="trow" role="listitem">
-            <div class="tdate">2025</div>
-            <div>
-              <b>Title of piece or talk</b>
-              <div style="color:var(--muted); font-size:14px;">What it argues or teaches in one sentence. <a href="#" target="_blank" rel="noreferrer">Link</a></div>
-            </div>
-          </div>
-          <div class="trow" role="listitem">
-            <div class="tdate">2024</div>
-            <div>
-              <b>Title of piece or talk</b>
-              <div style="color:var(--muted); font-size:14px;">What it argues or teaches in one sentence. <a href="#" target="_blank" rel="noreferrer">Link</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="card pad">
-        <h2>Contact</h2>
-        <p style="margin:0 0 12px; color:var(--muted); max-width:78ch;">
-          Best way to reach me: email. If you message me, include what you’re trying to accomplish and why you think I can help.
-        </p>
-
-        <div class="grid">
-          <div class="item">
-            <div class="kicker">Email</div>
-            <h3><a href="mailto:you@email.com">you@email.com</a></h3>
-            <p>Response time: [e.g., 1–2 business days].</p>
-          </div>
-          <div class="item">
-            <div class="kicker">Social</div>
-            <h3><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a></h3>
-            <p>Or wherever you want people to find you.</p>
-          </div>
-          <div class="item">
-            <div class="kicker">Calendar</div>
-            <h3><a href="#" target="_blank" rel="noreferrer">Book 15 minutes</a></h3>
-            <p>Optional. Only if you actually want cold invites.</p>
-          </div>
+          <div class="hint">Optional: after the board, wager and answer one final clue.</div>
         </div>
       </div>
 
-      <div class="footer">
-        <div>© <span id="year"></span> Your Name</div>
-        <div class="small">Built with one HTML file. No framework. Fast.</div>
+      <div class="announcer">
+        <div class="pixel" aria-hidden="true">
+          <div class="sprite"></div>
+        </div>
+        <div class="speech">
+          <div class="bubble" id="announcerBubble">
+            <div><b>Welcome, planners.</b></div>
+            <div class="small">Pick a category. Don’t buzz in, just be honest.</div>
+          </div>
+          <div class="toggles">
+            <label><input id="toggleVoice" type="checkbox"/> Voice announcer (Web Speech)</label>
+            <label><input id="toggleSfx" type="checkbox"/> SFX (simple beeps)</label>
+          </div>
+        </div>
       </div>
-    </section>
-  </main>
+    </aside>
+  </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <!-- Modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Clue dialog">
+    <div class="dialog">
+      <div class="dialog-head">
+        <div class="meta">
+          <b id="modalTitle">Category</b>
+          <span id="modalMeta">$200 • Clue 1 of 5</span>
+        </div>
+        <button class="btn" id="btnClose">Close</button>
+      </div>
+
+      <div class="dialog-body">
+        <div class="clue" id="clueText">Clue text</div>
+        <div class="answer" id="answerText"></div>
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:6px;">
+          <span class="pill" id="tagPill">tag</span>
+          <span class="pill" id="ddPill" style="display:none;">Daily Double</span>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <div class="left-actions">
+          <button class="btn" id="btnShowAnswer">Show Answer</button>
+          <button class="btn" id="btnAnnounce">Announce</button>
+        </div>
+        <div class="right-actions">
+          <span class="money" id="moneyTag">$200</span>
+          <button class="btn" id="btnCorrect">Correct (+)</button>
+          <button class="btn danger" id="btnWrong">Wrong (−)</button>
+          <button class="btn primary" id="btnLock">Lock Clue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/**
+ * Jeopardy-style quiz game: NYC Zoning Resolution + NYC planning history.
+ * Single-file, no build step. Edit QUESTIONS below to expand the bank.
+ *
+ * IMPORTANT: For real gameplay, refine clue wording and answers (and add citations if you want).
+ */
+
+// Money values for 5 rows
+const VALUES = [200, 400, 600, 800, 1000];
+
+const QUESTIONS = [
+  {
+    category: "Zoning Basics",
+    clues: [
+      { clue: "This zoning envelope control sets the maximum floor area relative to lot area.", answer: "What is FAR (Floor Area Ratio)?", tag:"fundamentals" },
+      { clue: "The required open space and building arrangement rules often differ between this pair: buildings in a row vs. buildings isolated on a lot.", answer: "What are R1–R5 (context) vs. tower-in-the-park-style districts? (More broadly: contextual vs. non-contextual bulk rules.)", tag:"bulk" },
+      { clue: "In the Zoning Resolution, manufacturing districts begin with this letter.", answer: "What is M?", tag:"notation" },
+      { clue: "A building feature that projects into the street’s airspace may be limited by rules tied to this boundary line.", answer: "What is the street line?", tag:"streetwall" },
+      { clue: "This zoning tool lets certain lots access floor area from other lots under rules and agreements.", answer: "What are transfer of development rights (TDR) / floor area transfers?", tag:"mechanisms" },
+    ]
+  },
+  {
+    category: "District Alphabet Soup",
+    clues: [
+      { clue: "In R7A, the typical contextual height is controlled with a base height and a maximum building height; this is part of a system called…", answer: "What are height limits under Quality Housing / contextual zoning?", tag:"contextual" },
+      { clue: "A C4 district generally allows broader commercial uses than this neighborhood-scale commercial district type.", answer: "What is C1 (or C2) neighborhood commercial?", tag:"commercial" },
+      { clue: "These mapped commercial overlays are commonly seen along corridors like Nostrand Ave or Flatbush Ave.", answer: "What are C1/C2 overlays?", tag:"overlays" },
+      { clue: "The letter used in zoning district names to indicate a contextual district (often with streetwall rules) is commonly this one.", answer: "What is “A” (as in R6A, R7A, R8A)?", tag:"naming" },
+      { clue: "In high-density contexts, residential districts often pair with commercial districts like C4-__; one common high-density commercial district is…", answer: "What is C4-7? (Also acceptable: other mapped high-density C4 variants depending on context.)", tag:"density" },
+    ]
+  },
+  {
+    category: "Bulk & Form",
+    clues: [
+      { clue: "This requirement describes the minimum distance between a building and the lot line, often on the sides and rear.", answer: "What is a setback (yard requirement)?", tag:"form" },
+      { clue: "Contextual zoning commonly uses this percentage of lot frontage to require a continuous streetwall.", answer: "What is a streetwall continuity requirement (often expressed as a % of frontage)?", tag:"streetwall" },
+      { clue: "A common reason a proposal triggers special review is because it exceeds the floor area threshold under this environmental process.", answer: "What is CEQR (City Environmental Quality Review)?", tag:"process" },
+      { clue: "This rule can limit the size/placement of curb cuts to reduce conflicts with pedestrians and curb activity.", answer: "What are curb cut restrictions / rules on driveways and parking access?", tag:"streets" },
+      { clue: "The concept that regulates how much of a lot can be covered by a building footprint is called…", answer: "What is lot coverage?", tag:"bulk" },
+    ]
+  },
+  {
+    category: "Special Districts",
+    clues: [
+      { clue: "These mapped areas modify underlying zoning rules to achieve neighborhood-specific goals (examples: Downtown Brooklyn, Special Hudson Yards).", answer: "What are Special Purpose Districts (Special Districts)?", tag:"special" },
+      { clue: "A Special District can add requirements for this ground-level feature to support active streets.", answer: "What are ground-floor retail / active frontage requirements?", tag:"urbanism" },
+      { clue: "This special district concept often aims to preserve a corridor’s character via tailored use/bulk rules.", answer: "What is a corridor preservation / contextual special district approach? (Accept: special district contextual controls.)", tag:"character" },
+      { clue: "Many Special District actions require this public review process in NYC.", answer: "What is ULURP?", tag:"procedure" },
+      { clue: "A zoning lot within a Special District may be subject to additional findings made by this NYC body for certain permits.", answer: "What is the City Planning Commission (CPC)?", tag:"governance" },
+    ]
+  },
+  {
+    category: "NYC Planning History",
+    clues: [
+      { clue: "NYC’s first citywide Zoning Resolution was adopted in this year, pioneering modern zoning in the U.S.", answer: "What is 1916?", tag:"history" },
+      { clue: "NYC’s current (modernized) Zoning Resolution replaced the older framework in this year.", answer: "What is 1961?", tag:"history" },
+      { clue: "This planning leader is closely associated with mid-20th-century NYC infrastructure building and urban renewal.", answer: "Who is Robert Moses?", tag:"history" },
+      { clue: "A major shift in NYC planning emphasized community input; one emblematic process is…", answer: "What is ULURP (formalized citywide public review) / community-based planning? (Accept ULURP as key.)", tag:"civics" },
+      { clue: "The idea of using zoning to shape building form and street character more directly expanded in NYC with this broad approach.", answer: "What is contextual zoning (Quality Housing / contextual districts)?", tag:"policy" },
+    ]
+  },
+  {
+    category: "Process & Acronyms",
+    clues: [
+      { clue: "The NYC process for reviewing certain land use actions stands for Uniform Land Use Review…", answer: "What is ULURP (Uniform Land Use Review Procedure)?", tag:"process" },
+      { clue: "This NYC Charter-created body votes on many land use actions after CPC.", answer: "What is the City Council?", tag:"governance" },
+      { clue: "Before a CPC hearing, many actions require an environmental determination and documentation under this city manual/process.", answer: "What is CEQR?", tag:"environmental" },
+      { clue: "The earliest public-facing local review step in ULURP is typically at this level.", answer: "What is the Community Board?", tag:"procedure" },
+      { clue: "This borough-wide advisory vote in ULURP comes after the Community Board.", answer: "What is the Borough President (Borough Board may also be involved depending on action)?", tag:"procedure" },
+    ]
+  }
+];
+
+// Final Jeopardy question
+const FINAL = {
+  category: "FINAL: NYC Zoning",
+  clue: "This 1961 Zoning Resolution innovation tied allowable floor area to a numerical ratio that planners cite constantly.",
+  answer: "What is FAR (Floor Area Ratio)?",
+  tag: "final"
+};
+
+// --- Game state ---
+let used = new Set();          // key: `${c}-${r}`
+let score = 0;
+let current = null;            // {cIdx, rIdx, clueObj, value}
+let dailyDoubleKey = null;     // one random clue key
+let progress = 0;
+
+const els = {
+  catRow: document.getElementById('catRow'),
+  cells: document.getElementById('cells'),
+  modal: document.getElementById('modal'),
+  modalTitle: document.getElementById('modalTitle'),
+  modalMeta: document.getElementById('modalMeta'),
+  clueText: document.getElementById('clueText'),
+  answerText: document.getElementById('answerText'),
+  tagPill: document.getElementById('tagPill'),
+  ddPill: document.getElementById('ddPill'),
+  announcerBubble: document.getElementById('announcerBubble'),
+  scoreVal: document.getElementById('scoreVal'),
+  progressPill: document.getElementById('progressPill'),
+  moneyTag: document.getElementById('moneyTag'),
+  toggleVoice: document.getElementById('toggleVoice'),
+  toggleSfx: document.getElementById('toggleSfx'),
+  btnNew: document.getElementById('btnNew'),
+  btnRevealAll: document.getElementById('btnRevealAll'),
+  btnResetScore: document.getElementById('btnResetScore'),
+  btnClose: document.getElementById('btnClose'),
+  btnShowAnswer: document.getElementById('btnShowAnswer'),
+  btnAnnounce: document.getElementById('btnAnnounce'),
+  btnCorrect: document.getElementById('btnCorrect'),
+  btnWrong: document.getElementById('btnWrong'),
+  btnLock: document.getElementById('btnLock'),
+  plusBtn: document.getElementById('plusBtn'),
+  minusBtn: document.getElementById('minusBtn'),
+  btnFinal: document.getElementById('btnFinal'),
+};
+
+function money(n){
+  const sign = n < 0 ? "-" : "";
+  const abs = Math.abs(n);
+  return `${sign}$${abs.toLocaleString()}`;
+}
+
+function beep(freq=520, ms=90){
+  if(!els.toggleSfx.checked) return;
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = "square";
+    o.frequency.value = freq;
+    o.connect(g);
+    g.connect(ctx.destination);
+    g.gain.value = 0.04;
+    o.start();
+    setTimeout(()=>{ o.stop(); ctx.close(); }, ms);
+  }catch(e){}
+}
+
+function speak(text){
+  if(!els.toggleVoice.checked) return;
+  if(!('speechSynthesis' in window)) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 1.02;
+  u.pitch = 0.9;
+  u.volume = 1.0;
+  // Use a default voice; user can set OS voice settings if they want.
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+function setAnnouncer(html, voiceText=null){
+  els.announcerBubble.innerHTML = html;
+  if(voiceText) speak(voiceText);
+}
+
+function pickDailyDouble(){
+  // Choose a random cell among all 30
+  const c = Math.floor(Math.random() * QUESTIONS.length);
+  const r = Math.floor(Math.random() * 5);
+  dailyDoubleKey = `${c}-${r}`;
+}
+
+function renderBoard(){
+  // Categories row
+  els.catRow.innerHTML = "";
+  QUESTIONS.forEach(q => {
+    const d = document.createElement('div');
+    d.className = "cat";
+    d.textContent = q.category;
+    els.catRow.appendChild(d);
+  });
+
+  // Cells
+  els.cells.innerHTML = "";
+  for(let r=0; r<5; r++){
+    for(let c=0; c<QUESTIONS.length; c++){
+      const key = `${c}-${r}`;
+      const cell = document.createElement('div');
+      cell.className = "cell";
+
+      // Daily Double badge (only if not used yet)
+      if(key === dailyDoubleKey && !used.has(key)){
+        const badge = document.createElement('div');
+        badge.className = "dd-badge";
+        badge.textContent = "DAILY";
+        cell.appendChild(badge);
+      }
+
+      const btn = document.createElement('button');
+      btn.textContent = `$${VALUES[r]}`;
+      btn.setAttribute('aria-label', `${QUESTIONS[c].category} for ${VALUES[r]}`);
+
+      if(used.has(key)){
+        btn.classList.add('locked');
+        btn.textContent = "—";
+      }
+
+      btn.addEventListener('click', () => {
+        if(used.has(key)) return;
+        openClue(c, r);
+      });
+
+      cell.appendChild(btn);
+      els.cells.appendChild(cell);
+    }
+  }
+
+  updateScore(0);
+  updateProgress();
+}
+
+function updateScore(delta){
+  score += delta;
+  els.scoreVal.textContent = money(score);
+}
+
+function updateProgress(){
+  const total = QUESTIONS.length * 5;
+  els.progressPill.textContent = `${progress} / ${total}`;
+}
+
+function openClue(cIdx, rIdx){
+  const q = QUESTIONS[cIdx];
+  const clueObj = q.clues[rIdx];
+  const value = VALUES[rIdx];
+  const key = `${cIdx}-${rIdx}`;
+
+  current = { cIdx, rIdx, clueObj, value, key };
+
+  const isDD = (key === dailyDoubleKey);
+
+  els.modalTitle.textContent = q.category;
+  els.modalMeta.textContent = `${money(value)} • Row ${rIdx+1} of 5`;
+  els.clueText.textContent = clueObj.clue;
+  els.answerText.className = "answer";
+  els.answerText.textContent = clueObj.answer;
+
+  els.tagPill.textContent = clueObj.tag || "nyc";
+  els.ddPill.style.display = isDD ? "inline-flex" : "none";
+
+  els.moneyTag.textContent = money(value);
+
+  els.modal.classList.add('open');
+
+  // Announce
+  if(isDD){
+    beep(220, 120); beep(330, 120); beep(440, 120);
+    setAnnouncer(
+      `<div><b>DAILY DOUBLE!</b></div><div class="small">Wager if you want — or just play it straight.</div>`,
+      "Daily Double! Make your wager."
+    );
+  }else{
+    beep(520, 70);
+    setAnnouncer(
+      `<div><b>${q.category}</b></div><div class="small">${money(value)} clue. Don’t overthink it.</div>`,
+      `${q.category}. ${money(value)}.`
+    );
+  }
+}
+
+function closeClue(){
+  els.modal.classList.remove('open');
+  current = null;
+}
+
+function lockClue(){
+  if(!current) return;
+  if(used.has(current.key)) return;
+
+  used.add(current.key);
+  progress += 1;
+  updateProgress();
+  renderBoard();
+}
+
+function markCorrect(){
+  if(!current) return;
+  updateScore(current.value);
+  beep(660, 90);
+  setAnnouncer(
+    `<div><b>Correct.</b></div><div class="small">Take your points like it’s a CPC vote.</div>`,
+    "Correct."
+  );
+}
+
+function markWrong(){
+  if(!current) return;
+  updateScore(-current.value);
+  beep(180, 140);
+  setAnnouncer(
+    `<div><b>Nope.</b></div><div class="small">The zoning text is unforgiving. Try the next one.</div>`,
+    "Incorrect."
+  );
+}
+
+function showAnswer(){
+  if(!current) return;
+  els.answerText.classList.add('show');
+  setAnnouncer(
+    `<div><b>Answer revealed.</b></div><div class="small">You can still score it yourself. Be honest.</div>`,
+    "Answer revealed."
+  );
+}
+
+function announceClue(){
+  if(!current) return;
+  const text = `${els.modalTitle.textContent}. For ${money(current.value)}. ${current.clueObj.clue}`;
+  speak(text);
+}
+
+function newGame(){
+  used = new Set();
+  score = 0;
+  progress = 0;
+  pickDailyDouble();
+  renderBoard();
+  setAnnouncer(
+    `<div><b>New game loaded.</b></div><div class="small">Pick a clue. Then decide: were you right?</div>`,
+    "New game loaded."
+  );
+}
+
+function revealAll(){
+  // Testing only: reveal the answers in a quick modal sequence? We'll just show a note.
+  setAnnouncer(
+    `<div><b>Testing mode.</b></div><div class="small">Click clues and hit “Show Answer.”</div>`,
+    "Testing mode."
+  );
+}
+
+function resetScore(){
+  score = 0;
+  els.scoreVal.textContent = money(score);
+  setAnnouncer(
+    `<div><b>Score reset.</b></div><div class="small">No shame. Zoning is deep.</div>`,
+    "Score reset."
+  );
+}
+
+function playFinal(){
+  // Final Jeopardy as a modal using same dialog
+  current = { cIdx: -1, rIdx: -1, clueObj: FINAL, value: 0, key: "FINAL" };
+
+  els.modalTitle.textContent = FINAL.category;
+  els.modalMeta.textContent = `Wager manually using +/− after reveal`;
+  els.clueText.textContent = FINAL.clue;
+  els.answerText.className = "answer";
+  els.answerText.textContent = FINAL.answer;
+
+  els.tagPill.textContent = FINAL.tag || "final";
+  els.ddPill.style.display = "none";
+  els.moneyTag.textContent = "FINAL";
+
+  els.modal.classList.add('open');
+  beep(300, 80); beep(360, 80); beep(420, 120);
+  setAnnouncer(
+    `<div><b>Final Jeopardy.</b></div><div class="small">Make your wager… then reveal and judge yourself.</div>`,
+    "Final Jeopardy."
+  );
+}
+
+// --- Wire UI ---
+els.btnClose.addEventListener('click', closeClue);
+els.modal.addEventListener('click', (e)=>{ if(e.target === els.modal) closeClue(); });
+
+els.btnShowAnswer.addEventListener('click', showAnswer);
+els.btnAnnounce.addEventListener('click', announceClue);
+els.btnCorrect.addEventListener('click', markCorrect);
+els.btnWrong.addEventListener('click', markWrong);
+els.btnLock.addEventListener('click', () => { lockClue(); closeClue(); });
+
+els.plusBtn.addEventListener('click', () => {
+  if(!current){ setAnnouncer(`<div><b>Tip:</b></div><div class="small">Open a clue, then score it with Correct/Wrong.</div>`); return; }
+  markCorrect();
+});
+els.minusBtn.addEventListener('click', () => {
+  if(!current){ setAnnouncer(`<div><b>Tip:</b></div><div class="small">Open a clue, then score it with Correct/Wrong.</div>`); return; }
+  markWrong();
+});
+
+els.btnNew.addEventListener('click', newGame);
+els.btnRevealAll.addEventListener('click', revealAll);
+els.btnResetScore.addEventListener('click', resetScore);
+els.btnFinal.addEventListener('click', playFinal);
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e)=>{
+  if(!els.modal.classList.contains('open')) return;
+  if(e.key === 'Escape') closeClue();
+  if(e.key.toLowerCase() === 'a') showAnswer();
+  if(e.key === '+' || e.key === '=') markCorrect();
+  if(e.key === '-' || e.key === '_') markWrong();
+  if(e.key.toLowerCase() === 'l'){ lockClue(); closeClue(); }
+});
+
+newGame();
+</script>
+
 </body>
 </html>
